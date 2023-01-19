@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        CMS | <%= title %>
+    </title>
+    <%- include("../partials/head") %>
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid">
+
+                            <div class="card">
+                                <div class="card-header mb-0">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title">Manage Smtps</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-actions float-end">
+                                                <button type="button" class="btn btn btn-outline-primary"
+                                                    id="addNewSmtp" title="New Smtp">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus align-middle">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg> New Smtp
+                                                </button>
+
+                                                <button type="button" id="ActiveSmtp" class="btn btn-outline-success"
+                                                    title="Active Smtp">
+                                                    Active
+                                                </button>
+                                                <button type="button" id="InactiveSmtp" class="btn btn-outline-warning"
+                                                    title="Inactive Smtp">
+                                                    Inactive
+                                                </button>
+                                                <button type="button" id="deleteAll" class="btn btn-outline-danger"
+                                                    title="Delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-trash align-middle">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path
+                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                        </path>
+                                                    </svg>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="boottable">
+                                        <table id="tablerecords"
+                                            class="table table-striped table-bordered table-sm text-nowrap"
+                                            data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>ALL</th>
+                                                    <th>CLUB</th>
+                                                    <th>NAME</th>
+                                                    <th>EMAIL</th>
+                                                    <th>HOST</th>
+                                                    <th>PORT</th>
+                                                    <th>STATUS</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td><input type="checkbox" id="checkAll" name="checkAll"
+                                                            class="form-check-input" /></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <input id="ByName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByEmail" class="form-control" />
+                                                    </td>
+                                                    <td colspan="2"></td>
+                                                    <td>
+                                                        <select id="ByStatus" class="form-select">
+                                                            <option value="">ALL</option>
+                                                            <option value="ACTIVE">ACTIVE</option>
+                                                            <option value="INACTIVE">INACTIVE</option>
+                                                            <option value="DELETE">DELETE</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="smtpList">
+                                                <tr id="norecords">
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span id="fPageStats"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="pagination float-end" id="fPage"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+                    <div class="modal fade" id="newDialog" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">New Smtp</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form id="form" class="form needs-validation" autocomplete="off">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12 mb-2">
+                                                <label class="form-label">Club</label>
+                                                <select class="form-select select2" id="club" name="clubid" required
+                                                    data-toggle="select2" required>
+                                                    <option value="">Choose Club</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Club should not be empty
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Host</label>
+                                                <input class="form-control" id="host" name="host" autocomplete="off"
+                                                    required />
+                                                <div class="invalid-feedback">
+                                                    Host should not be empty
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Port</label>
+                                                <input type="number" class="form-control" id="port" name="port"
+                                                    autocomplete="off" required maxlength="4" />
+                                                <div class="invalid-feedback">
+                                                    Port should not be empty
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Username</label>
+                                                <input class="form-control" id="username" name="username"
+                                                    autocomplete="off" required />
+                                                <div class="invalid-feedback">
+                                                    Username should not be empty
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="password"
+                                                    name="password" autocomplete="off" required />
+                                                <div class="invalid-feedback">
+                                                    Password should not be empty
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="example@example.com"
+                                                    placeholder="From Email" autocomplete="off" pattern="[a-z0-9._%+-]{1,40}[@]{1}[a-z]{1,50}[.]{1}[a-z]{3}" required />
+                                                <div class="invalid-feedback">
+                                                    Email should not be empty
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Name</label>
+                                                <input class="form-control" id="name" name="name" autocomplete="off"
+                                                    placeholder="Name" required />
+                                                <div class="invalid-feedback">
+                                                    Name should not be empty
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">BCC Email</label>
+                                                <input type="email" class="form-control" id="bccemail"  placeholder="example@example.com"
+                                                    name="bccemail" autocomplete="off" pattern="[a-z0-9._%+-]{1,40}[@]{1}[a-z]{1,50}[.]{1}[a-z]{3}" />
+                                                <div class="invalid-feedback">
+                                                    BCC Email should be in proper format 
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">BCC Name</label>
+                                                <input type="text" class="form-control" id="bccname" name="bccname"
+                                                    autocomplete="off" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" id="id" name="id">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="addSmtp">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    </div>
+    <%- include("../partials/foot") %>
+        <%- include("../partials/scripts") %>
+
+            <script src="js/pagination.js"></script>
+            <script src="js/smtp.js"></script>
+</body>
+
+</html>

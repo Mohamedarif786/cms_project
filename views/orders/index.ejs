@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>
+		<%= pageTitle %>
+	</title>
+	<%- include("../partials/head") %>
+		<script src="https://debk60diwzf0m.cloudfront.net/js/settings.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.min.js"></script>
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="wrapper">
+		<%- include("../partials/sidebar", {collapsed: 'false' }); %>
+			<div class="main">
+				<%- include("../partials/header") %>
+
+					<main class="content">
+						<div class="container-fluid p-0">
+							<div class="row" id="msgContent" style="display: none;">
+								<div class="alert alert-warning alert-dismissible" role="alert">
+									<button type="button" class="btn-close" data-bs-dismiss="alert"
+										aria-label="Close"></button>
+									<div class="alert-message">
+										<p class="mb-0"></p>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12">
+									<div class="card">
+										<div class="card-header">
+											<div class="row">
+												<div class="col-md-6">
+													<!--<h5 class="card-title">Reporting Suite</h5>-->
+													<h6 class="card-subtitle text-muted"></h6>
+												</div>
+												<div class="col-md-6">
+													<div class="card-actions float-end">
+														<button id="add-resource" class="btn btn-secondary ">SAMPLE
+															REPORT DOWNLOAD</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+										<div class="card-body" id="advanceContent">
+
+
+											<div class="row col-md-12">
+												<div class="col-md-2">
+													<!--
+														<button class="btn btn-primary btn-lg"
+														style="height: 100%;width:100%">SUBMIT
+													</button>
+												-->
+												</div>
+												<div class="col-md-2">
+													<div class="mb-3">
+														&nbsp;
+													</div>
+												</div>
+												<div class="col-md-2">
+													<button class="btn btn-primary btn-lg" style="width: 100%;">Import
+														Supplier <br />Commision </button>
+												</div>
+												<div class="col-md-2">
+													<button class="btn btn-primary btn-lg" style="width: 100%;">Import
+														Supplier <br />Payment </button>
+												</div>
+												<div class="col-md-2">
+													<button class="btn btn-primary btn-lg" style="width: 100%;">Import
+														Client <br />Pmt </button>
+												</div>
+												<div class="col-md-2">
+													<button class="btn btn-primary btn-lg" style="width: 100%;">Import
+														Client <br />Payout </button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Add Policy</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body m-3">
+
+										<form id="addForm" class="form needs-validation" autocomplete="off">
+											<div class="modal-body m-3">
+												<div class="mb-3">
+													<label class="form-label">Name</label>
+													<input class="form-control" id="resourceName" autocomplete="off"
+														required custom_validation="true"
+														custom_validation_msg="Please enter name" />
+												</div>
+
+												<!--
+												<div class="mb-3">
+													<label class="form-label">Description</label>
+													<textarea class="form-control" id="resourceDesc" name="description"
+														autocomplete="off" required custom_validation="true"
+														custom_validation_msg="Please enter description"></textarea>
+												</div>
+												-->
+
+												<div class="mb-3">
+													<label class="form-label">Resource</label>
+
+
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Status</label>
+													<div class="form-check form-switch">
+														<input class="form-check-input" type="checkbox" checked
+															id="resourceStatus">
+													</div>
+												</div>
+											</div>
+										</form>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="add-confirm">Save</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Delete Policy</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body m-3">
+										<p class="mb-0">This will delete the content ?</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-danger" id="delete-confirm">Delete</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Edit Policy</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body m-3">
+
+										<form id="editForm" class="form needs-validation" autocomplete="off">
+											<div class="modal-body m-3">
+												<div class="mb-3">
+													<label class="form-label">Name</label>
+													<input class="form-control" id="resourceNameEdit" autocomplete="off"
+														required custom_validation="true"
+														custom_validation_msg="Please enter name" />
+												</div>
+
+												<!--
+												<div class="mb-3">
+													<label class="form-label">Description</label>
+													<textarea class="form-control" id="resourceDescEdit"
+														name="description" autocomplete="off" required
+														custom_validation="true"
+														custom_validation_msg="Please enter description"></textarea>
+												</div>
+												-->
+												<div class="mb-3">
+													<label class="form-label">Resource</label>
+
+												</div>
+
+												<!--
+												<div class="mb-3">
+													<label class="form-label">Status</label>
+													<div class="form-check form-switch">
+														<input class="form-check-input" type="checkbox" checked
+															id="resourceStatusEdit">
+													</div>
+												</div>
+												-->
+											</div>
+										</form>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="edit-confirm">Update</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</main>
+					<%- include("../partials/foot") %>
+						<%- include("../partials/footer") %>
+			</div>
+	</div>
+	<%- include("../partials/scripts") %>
+		<script>
+			const _apiBase = '/orders';
+			const _dataResource = [];
+		</script>
+		<script src="js/pagination.js"></script>
+		<script src="js/orders.js"></script>
+</body>
+
+</html>

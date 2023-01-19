@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>
+        CMS |
+        <%= title %>
+    </title>
+    <%- include("../partials/head") %>       
+    <style>
+        #jsoneditor {
+            width: auto !important
+        }
+    </style>
+</head>
+<link href="/css/jsoneditor.css" rel="stylesheet" type="text/css">
+  
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+        <div class="main">
+            <%- include("../partials/header") %>
+            <main class="content p-3">
+                <div class="container-fluid">
+
+                    <div class="card">
+                        <div class="card-header mb-0">
+                            <h4><%= title %></h4>
+                            
+                        </div>
+                        <div class="card-body">
+                            <div class="boottable text-center">
+                                <table id="tablerecords" class="table table-bordered table-responsive table-hover table-sm" data-resizable-columns-id="demo-table">
+                                    <thead>
+                                        <tr class="bg-light" id="thead">
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody"   >
+                                        <tr id="norecords">
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </main>
+           
+        </div>
+    </div>
+    <div class="modal fade " id="newUserModal" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="jsoneditor" ></div>  
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addBenefits">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jsoneditor.js"></script>
+    
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CMS |
+        <%= title %>
+    </title>
+    <%- include("../partials/head") %>
+</head>
+
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="card-title">Splash Screen</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <form id="add-form" class="form needs-validation" autocomplete="off">
+                                    <div class="row mb-4">
+                                        <div class="col-sm-4">
+                                            <select class="form-select select2" id="fl_club" onchange="getClubLevel()" name="fl_club" required data-toggle="select2">
+                                                <option value="">Select Club</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select class="form-select" id="fl_level" name="fl_level" required>
+                                                <option value="">Select Level</option>
+                                            </select>
+                                        </div>                                        
+                                        <div class="col-sm-4">
+                                            <select class="form-select" onchange="typeChanged()" id="fl_type" name="fl_type" required>
+                                                <option value="">Select Type</option>
+                                                <option value="VIDEO">Video</option>
+                                                <option value="IMAGE">Image</option>
+                                                <option value="TEXT">Text</option>
+                                                <option value="VIDEO_TEXT">Video and Text</option>
+                                                <option value="TEXT_IMAGE">Image and Text</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+
+                                            <div class="mb-4 image-div d-none">
+                                                <input class="form-control" placeholder="Image Title" id="image_title">
+                                            </div>
+                                            <div class="mb-4 image-div d-none">
+                                                <label class="btn btn-default bg-light"><span id="image_span">Select Image</span><input type="file" onchange="imageChanged()" id="image_file" style="display: none;"></label>
+                                                <p style="color:#999;font-size: 12px;">Supprted file format jpg, jpeg, png</p>
+                                            </div>
+
+                                            <div class="mb-4 video-div d-none">
+                                                <input class="form-control" placeholder="Video Title" id="video_title">
+                                            </div>                                                                                        
+                                            <div class="mb-4  video-div d-none">
+                                                <label class="btn btn-default bg-light"><span id="video_span">Select Video</span><input type="file" onchange="videoChanged()" id="video_file" style="display: none;"></label>
+                                                <p style="color:#999;font-size: 12px;">Supprted file format mp4 only</p>
+                                            </div>
+                                            
+                                            <div class="mb-4 d-none text-div">
+                                                <input class="form-control" placeholder="Text Title" id="text_title">
+                                            </div>
+                                            <div class="mb-4 d-none text-div">
+                                                <div class="clearfix">
+                                                    <div id="quill-toolbar">
+                                                        <span class="ql-formats">
+                                                            <select class="ql-font"></select>
+                                                            <select class="ql-size"></select>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-bold"></button>
+                                                            <button class="ql-italic"></button>
+                                                            <button class="ql-underline"></button>
+                                                            <button class="ql-strike"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <select class="ql-color"></select>
+                                                            <select class="ql-background"></select>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-script" value="sub"></button>
+                                                            <button class="ql-script" value="super"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-header" value="1"></button>
+                                                            <button class="ql-header" value="2"></button>
+                                                            <button class="ql-blockquote"></button>
+                                                            <button class="ql-code-block"></button>
+                                                        </span>
+                                                         <span class="ql-formats">
+                                                            <button class="ql-list" value="ordered"></button>
+                                                            <button class="ql-list" value="bullet"></button>
+                                                            <button class="ql-indent" value="-1"></button>
+                                                            <button class="ql-indent" value="+1"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-direction" value="rtl"></button>
+                                                            <select class="ql-align"></select>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-link"></button>
+                                                            <button class="ql-image"></button>
+                                                            <button class="ql-video"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-clean"></button>
+                                                        </span>
+                                                    </div>
+                                                    <div id="quill-editor"></div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <select id="language" required custom_validation="true" custom_validation_msg="Please select language" class="form-select select2">
+                                                    <option value="">Choose Language</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <select class="form-select" required>
+                                                    <option>ACTIVE</option>
+                                                    <option>INACTIVE</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6"></div>
+                                    </div>
+                                    </form>
+                                    <div class="mb-4">
+                                        <button type="button" id="add_btn" class="btn btn-primary">Add Splash</button>
+                                        
+                                        <button id="deleteAll" class="btn btn-outline-danger" title="Delete" style="float: right;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-trash align-middle">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path
+                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                </path>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <div class="boottable">
+                                        <table id="tablerecords"
+                                            class="table table-striped table-bordered table-sm text-nowrap"
+                                            data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>ALL</th>
+                                                    <th>TYPE</th>
+                                                    <th>LANGUAGE</th>
+                                                    <th>STATUS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="splashList">
+                                                <tr id="norecords">
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span id="fPageStats"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="pagination float-end" id="fPage"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+            </div>
+    </div>
+    <%- include("../partials/foot") %>
+    <%- include("../partials/scripts") %>
+    <script src="js/splash.js"></script>
+    <script>
+		document.addEventListener("DOMContentLoaded", function() {
+			if (!window.Quill) {
+				return $("#quill-editor,#quill-toolbar,#quill-bubble-editor,#quill-bubble-toolbar").remove();
+			}
+			var editor = new Quill("#quill-editor", {
+				modules: {
+					toolbar: "#quill-toolbar"
+				},
+				placeholder: "Type something",
+				theme: "snow"
+			});
+			var bubbleEditor = new Quill("#quill-bubble-editor", {
+				placeholder: "Compose an epic...",
+				modules: {
+					toolbar: "#quill-bubble-toolbar"
+				},
+				theme: "bubble"
+			});
+		});
+	</script>
+</body>
+
+</html>

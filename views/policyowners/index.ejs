@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>
+		<%= pageTitle %>
+	</title>
+	<%- include("../partials/head") %>
+		<script src="https://debk60diwzf0m.cloudfront.net/js/settings.js"></script>
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="wrapper">
+		<%- include("../partials/sidebar") %>
+			<div class="main">
+				<%- include("../partials/header") %>
+
+					<main class="content p-3">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12">
+									<div class="card">
+										<!--
+										<div class="card-header">
+											<h5 class="card-title">Manage Resources</h5>
+											<h6 class="card-subtitle text-muted">Content</h6>
+										</div>
+										-->
+										<div class="card-header">
+											<div class="row">
+												<div class="col-md-6">
+													<h5 class="card-title">
+														<%= title %>
+													</h5>
+													<h6 class="card-subtitle text-muted"></h6>
+												</div>
+												<div class="col-md-6">
+													<div class="card-actions float-end">
+														<button id="add-resource" class="btn btn-outline-primary "><i
+																class="align-middle me-2"
+																data-feather="plus"></i>Grant</button>
+
+														<!--
+														<button id="ActiveRole" class="btn btn-outline-success"
+															title="Active Role">
+															Active
+														</button>
+														<button id="InactiveRole" class="btn btn-outline-warning"
+															title="Inactive Role">
+															Inactive
+														</button>
+														-->
+														<button id="deleteAll" class="btn btn-outline-danger"
+															title="Delete">
+															<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																height="24" viewBox="0 0 24 24" fill="none"
+																stroke="currentColor" stroke-width="2"
+																stroke-linecap="round" stroke-linejoin="round"
+																class="feather feather-trash align-middle">
+																<polyline points="3 6 5 6 21 6"></polyline>
+																<path
+																	d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+																</path>
+															</svg>
+															Revoke
+														</button>
+
+													</div>
+												</div>
+											</div>
+
+										</div>
+
+										<div class="card-body">
+											<table id="main-table" class="table table-striped table-bordered table-sm"
+												data-resizable-columns-id="demo-table" style="width:100%">
+												<thead>
+													<tr>
+														<th data-action="true" style="width: 50px;">ACTION</th>
+														<th data-search="false" data-all="true">All</th>
+														<th>TYPE</th>
+														<th>POLICY</th>
+														<th>ROLE</th>
+														<th>EMAIL</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+											<!-- pagination support element (fPageStats display stats if incuded)-->
+											<div class="row">
+												<div class="col-md-6">
+													<span id="fPageStats"></span>
+												</div>
+												<div class="col-md-6">
+													<ul class="pagination float-end" id="fPage"></ul>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Grant Policy</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body ">
+										<form id="addForm" class="form needs-validation" autocomplete="off">
+											<div class="modal-body">
+
+												<div class="row">
+													<div class="col-md-12 mb-3">
+														<label class="form-label">Policy</label>
+														<select id="policyid" data-name="Policy" required custom_validation="true"
+															custom_validation_msg="Please select policy"
+															class="form-select select2">
+															<option>Choole Policy</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-12 mb-3">
+														<label class="form-label">Type</label>
+														<select id="type" name="type" required custom_validation="true"
+															custom_validation_msg="Please select type"
+															class="form-control">
+															<option value="">Choose Type</option>
+															<option value="USER">USER</option>
+															<option value="ROLE">ROLE</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="row" style="display:none" id="roleidarea">
+													<div class="col-md-12 mb-3">
+														<label class="form-label">Role</label>
+														<select id="roleid" name="roleid" data-name="Role" custom_validation="true"
+															custom_validation_msg="Please select role"
+															class="form-select select2">
+															<option>Choose Role</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="row" style="display:none" id="useridarea">
+													<div class="col-md-12 mb-3">
+														<label class="form-label">User</label>
+														<select id="userid" name="userid" data-name="User" custom_validation="true"
+															custom_validation_msg="Please select user"
+															class="form-select select2">
+															<option>Choose User</option>
+														</select>
+													</div>
+												</div>
+
+
+											</div>
+										</form>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="add-confirm">Save</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Delete Policy</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<p class="mb-0">This will delete the content ?</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-danger" id="delete-confirm">Delete</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Edit Policy</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body ">
+
+										<form id="editForm" class="form needs-validation" autocomplete="off">
+											<div class="modal-body m-3">
+												<div class="mb-3">
+													<label class="form-label">Name</label>
+													<input class="form-control" id="resourceNameEdit" autocomplete="off"
+														required custom_validation="true"
+														custom_validation_msg="Please enter name" />
+												</div>
+
+												<!--
+												<div class="mb-3">
+													<label class="form-label">Description</label>
+													<textarea class="form-control" id="resourceDescEdit"
+														name="description" autocomplete="off" required
+														custom_validation="true"
+														custom_validation_msg="Please enter description"></textarea>
+												</div>
+												-->
+												<div class="mb-3">
+													<label class="form-label">Policy</label>
+
+													<select id="policyResourceEdit" required custom_validation="true"
+														custom_validation_msg="Please select policy" multiple="true"
+														class="form-control">
+														<option>--select</option>
+													</select>
+
+												</div>
+
+												<!--
+												<div class="mb-3">
+													<label class="form-label">Status</label>
+													<div class="form-check form-switch">
+														<input class="form-check-input" type="checkbox" checked
+															id="resourceStatusEdit">
+													</div>
+												</div>
+												-->
+											</div>
+										</form>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" id="edit-confirm">Update</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</main>
+					<%- include("../partials/footer") %>
+			</div>
+	</div>
+	<%- include("../partials/foot") %>
+		<%- include("../partials/scripts") %>
+			<script>
+				const _apiBase = '/policy-owners';
+			</script>
+			<script src="js/pagination.js"></script>
+			<script src="js/policyowners.js"></script>
+</body>
+
+</html>

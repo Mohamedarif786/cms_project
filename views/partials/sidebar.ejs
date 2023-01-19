@@ -1,0 +1,98 @@
+<style>
+        .sidebar-item .active {
+                color: #03a9f4;
+        }
+</style>
+<nav id="sidebar" class="sidebar <% if(typeof collapsed != 'undefined' && collapsed == 'true'){ %> collapsed <% } %>
+">
+        <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="/dashboard">
+                        <img src="https://debk60diwzf0m.cloudfront.net/images/logo.png" height="50" />
+                </a>
+
+                <ul class="sidebar-nav">
+                        <li class="adminMenu sidebar-item" id="sideNav1">
+                                <a data-bs-target="#admin" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Administration</span>
+                                </a>
+                                <ul id="admin" class="sidebar-dropdown list-unstyled collapse"
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+
+                        <li class="adminMenu sidebar-item" id="sideNav2">
+                                <a data-bs-target="#dataHolder" data-bs-toggle="collapse"
+                                        class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Data</span>
+                                </a>
+                                <ul id="dataHolder" class="sidebar-dropdown list-unstyled collapse"
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+                        <li class="adminMenu sidebar-item" id="sideNav3">
+                                <a data-bs-target="#configuration" data-bs-toggle="collapse"
+                                        class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Configuration</span>
+                                </a>
+                                <ul id="configuration" class="sidebar-dropdown list-unstyled collapse"
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+                        <li class="adminMenu sidebar-item " id="sideNav4">
+                                <a data-bs-target="#config" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Onboarding</span>
+                                </a>
+                                <ul id="config" class="sidebar-dropdown list-unstyled collapse "
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+
+                        <li style="display: none;" class="clubMenu sidebar-item" id="sideNav4">
+                                <a href="/members" collapse class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Members</span>
+                                </a>
+                        </li>
+                        <li class="sidebar-item" id="sideNav5">
+                                <a data-bs-target="#reports" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Reports</span>
+                                </a>
+                                <ul id="reports" class="sidebar-dropdown list-unstyled collapse "
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+                        <li class="sidebar-item " id="sideNav6">
+                                <a data-bs-target="#program-menu" data-bs-toggle="collapse"
+                                        class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Allocation</span>
+                                </a>
+                                <ul id="program-menu" class="sidebar-dropdown list-unstyled collapse"
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+                        <li class="adminMenu sidebar-item" id="sideNav7">
+                                <a data-bs-target="#content" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                                        <i class="align-middle" data-feather="layout"></i> <span
+                                                class="align-middle">Content</span>
+                                </a>
+                                <ul id="content" class="sidebar-dropdown list-unstyled collapse"
+                                        data-bs-parent="#sidebar">
+
+                                </ul>
+                        </li>
+
+                </ul>
+        </div>
+</nav>

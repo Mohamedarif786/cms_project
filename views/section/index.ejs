@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>
+		CMS | Sections
+	</title>
+	<%- include("../partials/head") %>
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="wrapper">
+		<%- include("../partials/sidebar", {collapsed: 'false' }); %>
+			<div class="main">
+				<%- include("../partials/header") %>
+					<main class="content p-3">
+						<div class="container-fluid p-0">
+							<div class="card">
+								<div class="card-header">
+									<div class="row">
+										<div class="col-md-8 mb-3">
+											<h5 class="card-title">
+												Manage Page Sections
+											</h5>
+										</div>
+
+										<div class="col-md-4 mb-3">
+											<div class="card-action float-end">
+												<button id="addNewSection" class="btn btn-outline-primary"
+													type="button">
+													<i class="align-middle me-2" data-feather="plus"></i>
+													New Section
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="overflow-auto"
+												style="height:400px; overflow-x: hidden !important;">
+												<div class="row" id="section_list"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</main>
+					<%- include("../partials/footer") %>
+					<%- include("../partials/foot") %>
+
+			</div>
+	</div>
+
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static"
+		data-bs-keyboard="false">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="section-page-title">Add Section</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form id="form" class="form needs-validation" autocomplete="off">
+					<div class="modal-body">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="data-tab" data-bs-toggle="tab"
+									data-bs-target="#data_pane" type="button" role="tab" aria-controls="home"
+									aria-selected="true">Data</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="content-tab" data-bs-toggle="tab"
+									data-bs-target="#contant_pane" type="button" role="tab" aria-controls="home"
+									aria-selected="true">Content</button>
+							</li>
+						</ul>
+						<div class="tab-content border-start border-bottom border-end p-3 mb-3">
+							<div class="tab-pane fade show active" id="data_pane" role="tabpanel">
+								<div class="row">
+									<div class="col-md-8 mb-3">
+										<input type="hidden" id="id" name="id" />
+										<input type="hidden" id="sort" name="sort" value="1" />
+										<label class="form-label">Name</label>
+										<input class="form-control field" data-property='["name"]' id="name" name="name"
+											autocomplete="off" custom_validation="true"
+											custom_validation_msg="Please enter name" />
+									</div>
+									<div class="col-md-4 mb-3">
+										<label class="form-label">Location</label>
+										<div class="input-group">
+											<span class="input-group-text">Row</span>
+											<input type="number" data-property='["row"]' id="row" name="row"
+												class="form-control field numericLimitCheck" maxlength="3" max="999"
+												min="1" value=1 />
+											<span class="input-group-text">Column</span>
+											<input type="number" data-property='["Column"]' id="Column" name="Column"
+												class="form-control field numericLimitCheck" maxlength="2" max="8"
+												min="1" value=1>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-8 mb-3">
+										<div class="input-group">
+											<span class="input-group-text w-25">Title</span>
+											<input class="form-control field" id="title" name="title"
+												data-property='["title"]' autocomplete="off" custom_validation="true"
+												custom_validation_msg="Please enter title" />
+										</div>
+									</div>
+									<div class="col-md-4 mb-3">
+										<div class="input-group">
+											<span class="input-group-text">Position</span>
+											<select class="form-select field" data-property='["title_position"]'
+												id="title_position" name="title_position" autocomplete="off"
+												custom_validation="true" custom_validation_msg="Please select position">
+												<option value="">None</option>
+												<option value="LEFT">Left</option>
+												<option value="TOP">Top</option>
+												<option value="RIGHT">Right</option>
+												<option value="BOTTOM">Bottom</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-3">
+										<label class="form-label">Description</label>
+									</div>
+									<div class="col-md-4 mb-3">
+										<div class="input-group">
+											<span class="input-group-text">
+												Position
+											</span>
+											<select class="form-select field" data-property='["description_position"]'
+												id="description_position" name="description_position" autocomplete="off"
+												custom_validation="true" custom_validation_msg="Please select position">
+												<option value="">None</option>
+												<option value="LEFT">Left</option>
+												<option value="TOP">Top</option>
+												<option value="RIGHT">Right</option>
+												<option value="BOTTOM">Bottom</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 mb-3">
+										<textarea rows="4" class="form-control field" data-property='["description"]'
+											id="description" name="description" autocomplete="off"
+											custom_validation="true"
+											custom_validation_msg="Please enter description"></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-3">
+										<div class="input-group">
+											<span class="input-group-text w-25">Thumbnail</span>
+											<input class="form-control field" data-property='["thumbnail"]'
+												id="thumbnail" name="thumbnail" autocomplete="off"
+												custom_validation="true"
+												custom_validation_msg="Please enter thumbnail" />
+
+										</div>
+									</div>
+									<div class="col-md-4 mb-3">
+										<div class="input-group">
+											<span class="input-group-text">Position</span>
+											<select class="form-select field" data-property='["thumbnail_position"]'
+												id="thumbnail_position" name="thumbnail_position" autocomplete="off"
+												custom_validation="true" custom_validation_msg="Please select position">
+												<option value="">None</option>
+												<option value="LEFT">Left</option>
+												<option value="TOP">Top</option>
+												<option value="RIGHT">Right</option>
+												<option value="BOTTOM">Bottom</option>
+											</select>
+										</div>
+									</div>
+
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-3">
+										<div class="input-group">
+											<span class="input-group-text w-25">Cover</span>
+											<input class="form-control field" data-property='["cover"]' id="cover"
+												name="cover" autocomplete="off" custom_validation="true"
+												custom_validation_msg="Please enter cover" />
+										</div>
+									</div>
+									<div class="col-md-4 mb-3">
+										<div class="input-group">
+											<span class="input-group-text">Position</span>
+											<select class="form-select field" data-property='["cover_position"]'
+												id="cover_position" name="cover_position" autocomplete="off"
+												custom_validation="true" custom_validation_msg="Please select position">
+												<option value="">None</option>
+												<option value="LEFT">Left</option>
+												<option value="TOP">Top</option>
+												<option value="RIGHT">Right</option>
+												<option value="BOTTOM">Bottom</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-3">
+										<div class="input-group">
+											<span class="input-group-text w-25">Video</span>
+											<input class="form-control field" data-property='["video"]' id="video"
+												name="video" autocomplete="off" custom_validation="true"
+												custom_validation_msg="Please enter video" />
+										</div>
+									</div>
+									<div class="col-md-4 mb-3">
+										<div class="input-group">
+											<span class="input-group-text">Position</span>
+											<select class="form-select field" data-property='["video_position"]'
+												id="video_position" name="video_position" autocomplete="off"
+												custom_validation="true" custom_validation_msg="Please select position">
+												<option value="">None</option>
+												<option value="LEFT">Left</option>
+												<option value="TOP">Top</option>
+												<option value="RIGHT">Right</option>
+												<option value="BOTTOM">Bottom</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="contant_pane" role="tabpanel">
+								<div class="row">
+									<div class="col-md-7 mb-3">
+									</div>
+									<div class="col-md-5 mb-3">
+										<div class="input-group">
+											<span class="input-group-text">Position</span>
+											<select class="form-select field" data-property='["content_position"]'
+												id="content_position" name="content_position" autocomplete="off"
+												custom_validation="true" custom_validation_msg="Please select position">
+												<option value="">None</option>
+												<option value="LEFT">Left</option>
+												<option value="TOP">Top</option>
+												<option value="RIGHT">Right</option>
+												<option value="BOTTOM">Bottom</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 mb-3">
+										<input class="form-control field" data-property='["content"]' id="contentEditor"
+											name="content" />
+
+									</div>
+								</div>
+							</div>
+						</div>
+				</form>
+			</div>
+			<div class="modal-footer" style="display: none;">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="add-section-confirm">Save</button>
+			</div>
+		</div>
+	</div>
+	
+		<%- include("../partials/scripts") %>
+			<script>
+				const pageId = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1, window.location.pathname.length);
+			</script>
+			<script src="../js/pagination.js"></script>
+			<script src="../js/section.js"></script>
+</body>
+
+</html>

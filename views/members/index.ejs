@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>
+        CMS |
+        <%= title %>
+    </title>
+
+    <title>Member List</title>
+    <%- include("../partials/head") %>
+</head>
+
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid p-0">
+                            <div class="card">
+                                <div class="card-header mb-0">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h4 class="card-title">Members</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-actions float-end">
+                                                <input type="hidden" name="loggedClubidValue" id="loggedClubidValue" />
+                                                <a id="importTemplate" style="display: none;" class="btn btn-outline-primary"
+                                                    title="Import Template" data-bs-toggle="modal"
+                                                    data-bs-target="#ImportMemberTemplate">Import</a>
+                                                <button class="btn btn btn-outline-primary" style="display: none;" title="Download Template"
+                                                    id="downloadTemplate">Download Template</button>
+
+                                                <button class="btn btn btn-outline-primary" title="Add"
+                                                    data-bs-toggle="modal" data-bs-target="#AddNewMember"
+                                                    onclick="closeModal('newUserForm')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus align-middle">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg> New Member
+                                                </button>
+
+                                                <button id="ActiveMember" class="btn btn-outline-success"
+                                                    title="Active Member">
+                                                    Active
+                                                </button>
+                                                <button id="InactiveMember" class="btn btn-outline-warning"
+                                                    title="Inactive Member">
+                                                    Inactive
+                                                </button>
+                                                <button id="deleteAll" class="btn btn-outline-danger" title="Delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-trash align-middle">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path
+                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                        </path>
+                                                    </svg>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="tablerecords"
+                                            class="table table-striped table-bordered table-sm table-hover text-nowrap"
+                                            data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>ALL</th>
+                                                    <th>CLUB</th>
+                                                    <th>TIER</th>
+                                                    <th>FIRST&nbsp;NAME</th>
+                                                    <th>LAST&nbsp;NAME</th>
+                                                    <th>EMAIL</th>
+                                                    <th>PHONE</th>
+                                                    <th>ADDRESS1</th>
+                                                    <th>ADDRESS2</th>
+                                                    <th>CITY</th>
+                                                    <th>STATE</th>
+                                                    <th>COUNTRY</th>
+                                                    <th>POSTAL CODE</th>
+                                                    <th>STATUS</th>
+                                                    <th>ENROLLED DATE</th>
+                                                    <th>CREATED DATE</th>
+                                                    <th>STATUS CHANGED DATE</th>
+                                                    <th>TIER CHANGED DATE</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td colspan="2"><input type="checkbox" id="checkAll" name="checkAll"
+                                                            class="form-check-input" /></td>
+                                                    <td>
+                                                        <input id="ByFName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByLName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByEmail" class="form-control" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style="width: 200px;">
+                                                        <select id="ByStatus" class="form-select">
+                                                            <option value="">ALL</option>
+                                                            <option value="ACTIVE">ACTIVE</option>
+                                                            <option value="INACTIVE">INACTIVE</option>
+                                                            <option value="DELETED">DELETED</option>
+                                                        </select>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="memberList">
+                                                <tr id="norecords">
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 pt-3">
+                                            <span id="fPageStats"></span>
+                                        </div>
+                                        <div class="col-md-6 pt-3">
+                                            <ul class="pagination float-end" id="fPage"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <%- include("../partials/footer") %>
+                            <div class="modal fade" id="AddNewMember" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: none;"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">New Member</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form id="newUserForm" class="form needs-validation" autocomplete="off">
+                                            <div class="modal-body">
+                                                <div class="row" id="ClubChoice">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label class="form-label">Club</label>
+                                                        <select class="form-control select2" id="MemberClubId"
+                                                            name="clubid" data-toggle="select2" required>
+                                                            <option value="">Choose Club</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <ul class="nav nav-tabs" id="addressTab" role="tablist">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link active" id="personal-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#personal"
+                                                            type="button" role="tab" aria-controls="home"
+                                                            aria-selected="true">Personal</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="address-tab" data-bs-toggle="tab"
+                                                            data-bs-target="#address" type="button" role="tab"
+                                                            aria-controls="home" aria-selected="true">Other</button>
+                                                    </li>
+
+                                                </ul>
+                                                <div class="tab-content border p-3 mb-3" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="personal"
+                                                        role="tabpanel">
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">First Name</label>
+                                                                <input class="form-control" id="first_name"
+                                                                    name="first_name" autocomplete="off" required />
+                                                                <div class="invalid-feedback">
+                                                                    First Name is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Last Name</label>
+                                                                <input class="form-control" id="last_name"
+                                                                    name="last_name" autocomplete="off" required />
+                                                                <div class="invalid-feedback">
+                                                                    Last Name is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Tier</label>
+                                                                <select class="form-control select2" id="tierid"
+                                                                    required name="tierid" data-toggle="select2">
+                                                                    <option value="">Choose Tier</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Tier is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Enrolled Date</label>
+                                                                <input data-mask="0000-00-00" class="form-control"
+                                                                    id="enrolled_at" name="enrolled_at"
+                                                                    autocomplete="off" required />
+                                                                <div class="invalid-feedback">
+                                                                    Enrolled Date is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Email</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-mail align-middle me-2">
+                                                                            <path
+                                                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                                                            </path>
+                                                                            <polyline points="22,6 12,13 2,6">
+                                                                            </polyline>
+                                                                        </svg>
+                                                                    </span> <input type="email" class="form-control"
+                                                                        id="email" name="email" placeholder="Email"
+                                                                        autocomplete="off" required />
+                                                                </div>
+                                                                                                                                    
+
+                                                                <div class="invalid-feedback">
+                                                                    Email is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Password</label>
+                                                                <div class="input-group">
+
+                                                                    <span class="input-group-text">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock"  width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                                            <rect x="5" y="11" width="14" height="10" rx="2" />
+                                                                            <circle cx="12" cy="16" r="1" />
+                                                                            <path d="M8 11v-4a4 4 0 0 1 8 0v4" />
+                                                                          </svg>
+                                                                    </span>
+                                                                    <input class="form-control" id="password" type="password"
+                                                                    placeholder="Password"
+                                                                    name="password" autocomplete="off" required />
+                                                                <div class="invalid-feedback">
+                                                                    Password is required
+                                                                </div>
+                                                                </div>
+                                                             
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Phone</label>
+                                                                <div class="input-group">
+                                                                    <span class="">
+                                                                        <select id="callingcode" name="callingcode"
+                                                                            class="form-control">
+                                                                        </select>
+                                                                    </span>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="Phone" id="phone" name="phone"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Cover</label>
+                                                                <input class="form-control" id="cover" name="cover"
+                                                                    autocomplete="off" />
+                                                            </div>
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Photo</label>
+                                                                <input type="file" class="form-control" id="photo"
+                                                                    name="photo" autocomplete="off" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="address" role="tabpanel"
+                                                        aria-labelledby="home-tab">
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Address&nbsp;1</label>
+                                                                <input class="form-control" id="address1"
+                                                                    name="address1" autocomplete="off" required />
+                                                                <div class="invalid-feedback">
+                                                                    Address 1 is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Address&nbsp;2</label>
+                                                                <input class="form-control" id="address2"
+                                                                    name="address2" autocomplete="off" />
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Country</label>
+                                                                <select class="form-control select2" id="country"
+                                                                    name="country" autocomplete="off" required
+                                                                    data-toggle="select2"
+                                                                    onchange="getState(this.value, 1)">
+                                                                    <option value="">Choose Country</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Country is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">State</label>
+                                                                <select class="form-control select2" id="state"
+                                                                    name="state" autocomplete="off" required
+                                                                    data-toggle="select2"
+                                                                    onchange="getCity(this.value, 1)">
+                                                                    <option value="">Choose State</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    State is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">City</label>
+                                                                <select class="form-control select2" id="city"
+                                                                    name="city" autocomplete="off" required
+                                                                    data-toggle="select2">
+                                                                    <option value="">Choose City</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    City is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Postal&nbsp;Code</label>
+                                                                <input class="form-control" id="postal_code"
+                                                                    name="postal_code" autocomplete="off" required />
+                                                                <div class="invalid-feedback">
+                                                                    Postal Code is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Language</label>
+                                                                <select class="form-control select2" id="language"
+                                                                    name="language" autocomplete="off" required
+                                                                    data-toggle="select2">
+                                                                    <option value="">Choose Language</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Language is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Currency</label>
+                                                                <select class="form-control select2" id="currency"
+                                                                    name="currency" autocomplete="off" required
+                                                                    data-toggle="select2">
+                                                                    <option value="">Choose Currency</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Currency is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" id="billable_true"
+                                                                name="billable" type="checkbox" checked>
+                                                            <label class="form-check-label"
+                                                                for="flexSwitchCheckChecked">Billable</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" id="referred"
+                                                                name="referred" type="checkbox" checked>
+                                                            <label class="form-check-label"
+                                                                for="flexSwitchCheckChecked">Referred</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    id="addMember">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Download Member Template - start ------------------------------------------------------------->
+
+                            <div class="modal fade" id="DownloadMemberTemplate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Download Template</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form id="DownloadMemberTemplateForm" class="form needs-validation"
+                                            autocomplete="off">
+                                            <div class="modal-body">
+                                                <div class="row" id="ClubChoice">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label class="form-label">Club</label>
+                                                        <select class="form-control " id="DownloadClubId" name="clubid"
+                                                            data-toggle="select2" required>
+                                                            <option value="">Choose Club</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="downloadTemplateButton"
+                                                    class="btn btn-primary">Download</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Download Member Template - end ------------------------------------------------------------->
+
+                            <!--import Member Template - start ------------------------------------------------------------->
+                            <!--div id="exceltable"></div-->
+                            <div class="modal fade " id="importingMemberData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content ">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Member Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body  ">
+                                            <div class="table-responsive member_details_popup">
+                                                <table id="generateExcelTable"
+                                                    class="table table-striped table-bordered table-sm table-hover text-nowrap"
+                                                    data-resizable-columns-id="demo-table">
+                                                    <thead>
+                                                        <tr id="tableHeading"> </tr>
+                                                    </thead>
+                                                    <tbody id="tableBodyData">
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--import Member Template - end ------------------------------------------------------------->
+                            <div class="modal fade" id="displayErrorMessageModalBox2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true"
+                                data-bs-backdrop="static">
+                                <div class="modal-dialog modal-dialog-centered modal-md import_membeModal"
+                                    role="document">
+                                    <div class="modal-content">
+                                        <div class="row">
+                                            <div class="col-md-11 mb-2">
+                                                sdfsfsffsdf adf sdf sdf
+                                            </div>
+                                            <div class="col-md-1 mb-2">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Import Member Template - start ------------------------------------------------------------->
+                            <div class="modal fade" id="ImportMemberTemplate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true"
+                                data-bs-backdrop="static">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Import</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form id="ImportMemberTemplateForm" class="form needs-validation"
+                                            autocomplete="off">
+                                            <div class="modal-body">
+                                                <div class="row importClubClass" id="ClubChoice">
+                                                    <div class="col-md-12 mb-3" id="importMemberDivClubid">
+                                                        <label class="form-label">Club</label>
+                                                        <select class="form-control " id="importClubId"
+                                                            data-toggle="select2" required>
+                                                            <option value="">Choose Club</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input type="file" class="form-control" id="import_members"
+                                                            name="import_members" autocomplete="off" accept=".xlsx"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="imporTemplateButton"
+                                                    class="btn btn-primary">Import</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Import Member Template - end ------------------------------------------------------------->
+
+
+
+                            <div class="modal fade" id="updateUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: none;"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Update Member</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form id="updateUserForm" class="form needs-validation" autocomplete="off">
+                                            <input type="hidden" name="memberid" id="memberid" value="">
+
+                                            <div class="modal-body">
+                                                <div class="row" id="ClubChoice">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label class="form-label">Club</label>
+                                                        <select class="form-control select2" id="UpdateMemberClubId"
+                                                            name="clubid" data-toggle="select2" reqired>
+                                                            <option value="">Choose Club</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link active" id="update_personal-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#update_personal"
+                                                            type="button" role="tab" aria-controls="home"
+                                                            aria-selected="true">Personal</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="update_address-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#update_address"
+                                                            type="button" role="tab" aria-controls="home"
+                                                            aria-selected="true">Other</button>
+                                                    </li>
+
+                                                </ul>
+                                                <div class="tab-content border p-3 mb-3">
+                                                    <div class="tab-pane fade show active" id="update_personal"
+                                                        role="tabpanel">
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">First Name</label>
+                                                                <input class="form-control" id="update_first_name"
+                                                                    name="update_first_name" autocomplete="off"
+                                                                    required />
+                                                                <div class="invalid-feedback">
+                                                                    First Name is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Last Name</label>
+                                                                <input class="form-control" id="update_last_name"
+                                                                    name="update_last_name" autocomplete="off"
+                                                                    required />
+                                                                <div class="invalid-feedback">
+                                                                    Last Name is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Tier</label>
+                                                                <select class="form-control select2" id="update_tierid"
+                                                                    name="update_tierid" data-toggle="select2" reqired>
+                                                                    <option value="">Choose Tier</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Tier is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Email</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-mail align-middle me-2">
+                                                                            <path
+                                                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                                                            </path>
+                                                                            <polyline points="22,6 12,13 2,6">
+                                                                            </polyline>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <input class="form-control" id="update_email"
+                                                                        name="update_email" placeholder="Email"
+                                                                        autocomplete="off" required />
+                                                                </div>
+
+                                                                <div class="invalid-feedback">
+                                                                    Email is required
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Phone</label>
+                                                                <div class="input-group">
+                                                                    <span class="">
+                                                                        <select id="update_callingcode"
+                                                                            name="callingcode"
+                                                                            class="form-control">
+                                                                        </select>
+                                                                    </span>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="Phone" id="update_phone"
+                                                                        name="update_phone" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Cover</label>
+                                                                <input class="form-control" id="update_cover"
+                                                                    name="update_cover" autocomplete="off" />
+                                                            </div>
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Photo</label>
+                                                                <input type="file" class="form-control"
+                                                                    id="update_photo" name="update_photo"
+                                                                    autocomplete="off" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="update_address" role="tabpanel"
+                                                        aria-labelledby="home-tab">
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Address&nbsp;1</label>
+                                                                <input class="form-control" id="update_address1"
+                                                                    name="update_address1" autocomplete="off"
+                                                                    required />
+                                                                <div class="invalid-feedback">
+                                                                    Address 1 is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Address&nbsp;2</label>
+                                                                <input class="form-control" id="update_address2"
+                                                                    name="update_address2" autocomplete="off" />
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Country</label>
+                                                                <select class="form-control select2" id="update_country"
+                                                                    name="update_country" autocomplete="off" required
+                                                                    data-toggle="select2"
+                                                                    onchange="getState(this.value, 0)">
+                                                                    <option value="">Choose Country</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Country is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">State</label>
+                                                                <select class="form-control select2" id="update_state"
+                                                                    name="update_state" autocomplete="off" required
+                                                                    data-toggle="select2"
+                                                                    onchange="getCity(this.value, 0)">
+                                                                    <option value="">Choose State</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    State is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">City</label>
+                                                                <select class="form-control select2" id="update_city"
+                                                                    name="update_city" autocomplete="off" required
+                                                                    data-toggle="select2">
+                                                                    <option value="">Choose City</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    City is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Postal&nbsp;Code</label>
+                                                                <input class="form-control" id="update_postal_code"
+                                                                    name="update_postal_code" autocomplete="off"
+                                                                    required />
+                                                                <div class="invalid-feedback">
+                                                                    Postal Code is required
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Language</label>
+                                                                <select class="form-control select2"
+                                                                    id="update_language" name="update_language"
+                                                                    autocomplete="off" required data-toggle="select2">
+                                                                    <option value="">Choose Language</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Language is required
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Currency</label>
+                                                                <select class="form-control select2"
+                                                                    id="update_currency" name="update_currency"
+                                                                    autocomplete="off" required data-toggle="select2">
+                                                                    <option value="">Choose Currency</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Currency is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" id="hidden_email">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" id="update_billable"
+                                                                name="update_billable" type="checkbox" checked>
+                                                            <label class="form-check-label"
+                                                                for="flexSwitchCheckChecked">Billable</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" id="update_referred"
+                                                                name="update_referred" type="checkbox" checked>
+                                                            <label class="form-check-label"
+                                                                for="flexSwitchCheckChecked">Referred</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    id="updateMember">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+            </div>
+    </div>
+    <%- include("../partials/foot") %>
+        <%- include("../partials/scripts") %>
+
+            <script src="js/pagination.js"></script>
+            <script src="js/member.js"></script>
+            <script src="js/xlsx.core.min.js"></script>
+            <script>
+                let localStorageData = JSON.parse(localStorage.getItem("user"));
+                let loggedClubid = localStorageData.clubid;
+                if (loggedClubid) {
+                    $("#downloadTemplate").attr("href", "/member/download/" + loggedClubid + "/");
+                    $("#downloadTemplate").addClass("btn btn btn-outline-primary");
+                    $("#downloadTemplate").attr("title", "Download Template");
+                    $("#downloadTemplate").attr("target", "_blank");
+                    //$("#importMemberDivClubid").hide();
+                    $("#importMemberDivClubid").remove();
+                    $("#loggedClubidValue").val(loggedClubid);
+                }
+                else {
+                    $("#downloadTemplate").addClass("btn btn btn-outline-primary");
+                    $("#downloadTemplate").attr("title", "Download Template");
+                    $("#downloadTemplate").attr("data-bs-toggle", "modal");
+                    $("#downloadTemplate").attr("data-bs-target", "#DownloadMemberTemplate");
+                    //$("#importMemberDivClubid").show();
+                    $("#loggedClubidValue").val('');
+                }
+            </script>
+            		<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+                    <script src="js/sendMail"></script>
+
+</body>
+
+</html>

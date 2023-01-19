@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CMS |
+        <%= title %>
+    </title>
+    <%- include("../partials/public/head") %>
+</head>
+
+<body style="margin: 0px;">
+    <div class="container-login100">
+        <div class="card col-md-3">
+            <div class="text-center border-bottom">
+                <img src="https://debk60diwzf0m.cloudfront.net/images/login.png" class="card-img-top" style="width:300px" />
+            </div>
+            <div class="card-header pb-1 pt-1 border-bottom">
+                <span class="card-title mb-0">Forgot Password</span>
+            </div>
+            <div class="card-body">
+                <form class="form needs-validation" role="form" autocomplete="off" id="formForgot">
+                    <div class="row pb-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+                                <div class="invalid-feedback">
+                                    Email address is invalid/empty.
+                                </div>
+
+                                <label>New Password</label>
+                                <div class="input-group mb-3">
+                                    <input type="password" class="form-control" id="password1" name="password1" required>
+                                    <span class="input-group-text" role="button" id="toggle-password"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg></span>
+                                    <div class="invalid-feedback">
+                                        Password is invalid/empty.
+                                    </div>
+                                </div>
+                                <!-- 
+                                <label>Confirm Password</label>
+                                <div class="input-group mb-3">
+                                    <input type="password" class="form-control" id="password2" name="password2" required>
+                                    <span class="input-group-text" role="button" id="toggle-password1"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg></span>
+                                    <div class="invalid-feedback">
+                                        Password is invalid/empty.
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 pt-1">
+                            <!-- <a href="signin" role="button" class="btn btn-warning float-start">Sign In <svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-log-in">
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                    <polyline points="10 17 15 12 10 7"></polyline>
+                                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                                </svg></a> -->
+                            <button type="submit" class="btn btn-primary float-end" id="btnReset">Reset
+                                Password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <%- include ("../partials/public/scripts") %>
+            <script>
+                const passwordInput = document.querySelector("[type='password']");
+                const togglePasswordButton = document.getElementById("toggle-password");
+                togglePasswordButton.addEventListener("click", togglePassword);
+
+                function togglePassword() {
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                        togglePasswordButton.setAttribute("aria-label", "Hide password.")
+                    } else {
+                        passwordInput.type = "password";
+                        togglePasswordButton.setAttribute("aria-label", "Show password as plain text. " + "Warning: this will display your password on the screen.")
+                    }
+                }
+
+                // $('#toggle-password1').on('click', function() {
+                //     var passInput = $("#password2");
+                //     if (passInput.attr('type') === 'password') {
+                //         passInput.attr('type', 'text');
+                //     } else {
+                //         passInput.attr('type', 'password');
+                //     }
+                // })
+
+                function notify(msg, typ) {
+                    var message = msg;
+                    var type = typ;
+                    var duration = 2500;
+                    var ripple = true;
+                    var dismissible = true;
+                    var positionX = 'Right';
+                    var positionY = 'top';
+                    // window.notyf.open({
+                    //     type,
+                    //     message,
+                    //     duration,
+                    //     ripple,
+                    //     dismissible,
+                    //     position: {
+                    //         x: positionX,
+                    //         y: positionY
+                    //     }
+                    // });
+                }
+
+                $('#btnReset').click(() => {
+                        var forms = document.querySelectorAll('.needs-validation');
+                        let flag = $("#formForgot")[0].checkValidity()
+                        if (flag) {
+                            let user = JSON.parse(localStorage.getItem('user'));
+                            console.log('usr', user);
+                            let input = {
+                                "code": 7228,
+                                "password": $("#password1").val()
+                            };
+                            $.post("/forgotPwd", input, function(res) {
+                                console.log('res', res);
+
+                            })
+                            return false;
+                        }
+                        $("#formForgot")[0].classList.add('was-validated');
+                        return flag;
+                    })
+                    // $("#btnForgot").click(() => {
+                    //     var forms = document.querySelectorAll('.needs-validation');
+                    //     let flag = $("#formForgot")[0].checkValidity();
+
+                //     if (flag) {
+                //         let input = {
+                //             username: $("#username").val(),
+                //             password: bcrypt.hashSync($("#password").val())
+                //         };
+                //         //console.log(input);
+                //         $.post("/signin", input, function(data) {
+                //             console.log(data);
+                //             let udata = data.accessToken.split(".")[1];
+                //             //console.log(data);
+                //             udata = JSON.parse(window.atob(udata));
+                //             localStorage.setItem("token", data);
+                //             localStorage.setItem("user", udata[0]);
+                //             let baseUrl = window.location.href.substr(0, window.location.href.indexOf(window.location.pathname));
+                //             window.location.href = baseUrl + $("#ReturnUrl").val();
+                //         });
+                //         return false;
+                //     }
+                //     $("#formForgot")[0].classList.add('was-validated');
+                //     return flag;
+                // });
+            </script>
+    </footer>
+</body>
+
+</html>

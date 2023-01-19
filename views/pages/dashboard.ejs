@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>CMS | Dashboard</title>
+	<%- include("../partials/head") %>
+	<script src="https://debk60diwzf0m.cloudfront.net/js/settings.js"></script>
+</head>
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="wrapper">
+		<%- include("../partials/sidebar") %>
+			<div class="main">
+				<%- include("../partials/header") %>
+					<div class="container-fluid p-3">
+						<div class="row">
+							<div class="col-12 col-sm-6 col-xxl d-flex">
+								<div class="card illustration flex-fill">
+									<div class="card-body p-0 d-flex flex-fill">
+										<div class="row g-0 w-100">
+											<div class="col-md-12">
+												<div class="illustration-text p-3 m-1">
+													<h4 class="illustration-text">Welcome <span
+															class="displayName">Back,&nbsp;Chris</span>!</h4>
+													<p class="mb-0">Dashboard</p>
+												</div>
+											</div>
+											<!-- <div class="col-6 align-self-end text-end">
+													<img src="img/illustrations/customer-support.png"
+														alt="Customer Support" class="img-fluid illustration-img">
+												</div> -->
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+						<div class="row">
+							<div class="col-12 col-md-6 col-xl-4 d-none d-xl-flex">
+								<div class="card flex-fill w-100">
+									<div class="card-header">
+										<h4 class="card-title">Members</h4>
+									</div>
+									<div class="card-body d-flex">
+										<div class="align-self-center w-100">
+											<div class="py-3">
+												<div class="chart chart-xs">
+													<div id="dashboard-member-bar" style="min-height: 300px"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<%- include("../partials/footer") %>
+			</div>
+			<%- include("../partials/foot") %>
+	</div>
+	<%- include("../partials/scripts") %>
+	<script src="js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= pageTitle %>
+    </title>
+    <%- include("../partials/head") %>
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar", {collapsed: 'false' }); %>
+
+            <div class="main">
+                <%- include("../partials/header") %>
+
+                    <main class="content p-3">
+
+                        <div class="container-fluid ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="card-actions ">
+                                                    <!--<button id="advanceSearch" class="btn btn-secondary">Filter</button>-->
+                                                    <select class="form-select select2" style="width: 30%;" id="clubs">
+                                                        <option>Choose Club</option>
+                                                        <% dataClubs.forEach(function(data){ %>
+                                                            <option value="<%=data.id %>">
+                                                                <%=data.name %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 pageContent" id="pageContent" style="display: none;">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5 class="card-title">
+                                                        <%= title %>
+                                                    </h5>
+                                                    <h6 class="card-subtitle text-muted"></h6>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card-actions float-end">
+
+                                                        <button id="cloneData" class="btn btn-outline-primary"><i
+                                                                class="align-middle me-2" data-feather="plus"></i>
+                                                            Clone</button>
+
+                                                        <button id="add-page" class="btn btn-outline-primary"><i
+                                                                class="align-middle me-2" data-feather="plus"></i>
+                                                            New Language</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="card-body">
+                                            <table id="main-table"
+                                                class="table table-hover table-striped table-bordered table-sm"
+                                                data-resizable-columns-id="demo-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-action="true">ACTION</th>
+                                                        <th data-action="true">CLUB</th>
+                                                        <th data-search="true">LANGUAGE</th>
+                                                        <th data-search="true">CODE</th>
+                                                        <th data-search="true">TIER</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            <!-- pagination support element (fPageStats display stats if incuded)-->
+                                            <div class="row" id="fPageRow">
+                                                <div class="col-md-6">
+                                                    <span id="fPageStats"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ul class="pagination float-end" id="fPage"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static"
+                            data-bs-keyboard="false" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered " role="document" style="min-width: 50%;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">New Language</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="addPageForm" class="form needs-validation" autocomplete="off">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+
+                                                    <label class="form-label">Language</label>
+                                                    <select class="form-select select2 pageSelectElement"
+                                                        id="addLanguage" name="language" autocomplete="off" required
+                                                        custom_validation="true"
+                                                        custom_validation_msg="Please enter language">
+                                                        <option value="">Choose Language</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <label class="form-label">Tier</label>
+                                                    <select class="form-select select2 pageSelectElement"
+                                                        data-property='["tierid"]' id="addTier" autocomplete="off"
+                                                        name="tierid" custom_validation="true"
+                                                        custom_validation_msg="Please select tier">
+                                                        <option value="">Choose Tier</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row"
+                                                        style="display: flex;justify-content: space-between;">
+                                                        <div class="col">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Name</label>
+                                                                <input class="form-control pageInputElement"
+                                                                    data-property='["name"]' required id="addName"
+                                                                    name="name" autocomplete="off"
+                                                                    custom_validation="true"
+                                                                    custom_validation_msg="Please enter name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            id="add-page-confirm">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="modal fade" id="cloneModal" tabindex="-1" data-bs-backdrop="static"
+                            data-bs-keyboard="false" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Clone Content</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+                                            Are you sure to clone?
+                                        </div>
+                                        <ul id="list">
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="cloneConfirm" class="btn btn-primary"
+                                            id="cloneConfirm">Yes</button>
+                                        <button type="button" data-bs-dismiss="modal" class="btn btn-danger">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </main>
+                    <%- include("../partials/foot") %>
+                        <%- include("../partials/footer") %>
+            </div>
+    </div>
+    <%- include("../partials/scripts") %>
+        <script>
+            const _apiBase = ' /language';
+            const _dataResource = []; 
+        </script>
+        <script src="js/pagination.js"></script>
+        <script src="js/club.language.js"></script>
+</body>
+
+</html>

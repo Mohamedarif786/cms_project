@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CMS | Data Exporter</title>
+    <%- include("../partials/head") %>
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title">Data Exporter</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-actions float-end">
+                                                <!--   <button class="btn btn-outline-primary">
+                                                    <span class="align-middle">Export</span>
+                                                </button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row d-flex">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text">Table</span>
+                                                <select id="tablelist" class="form-select select2" style="width:250px"
+                                                    data-toggle="select2">
+                                                    <option>Select...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <button class="btn btn-outline-primary float-end" id="exportData"
+                                                title="Export Data" disabled>
+                                                <span class="align-middle">Export Data</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row d-flex">
+                                        <div class="col-md-12 mb-2">
+                                            <div id="dataGrid" class="table-responsive border" style="height: 300px;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+                        <%- include("../partials/foot") %>
+            </div>
+    </div>
+    <%- include("../partials/scripts") %>
+        <script>
+            let table; let tableData; let headers;
+            let summary;
+            $(document).ready(function () {
+                $("#exportData").click(function () {
+                    exportData();
+                });
+                $('#loader').show();
+                $.get("/tables", function (result) {
+                    //console.log(result);
+                    $("#tablelist").empty();
+                    $(result).each(function () {
+                        $("#tablelist").append(`<option value="${this.table_name}">${this.table_name}</option>`)
+                    })
+                    $('#loader').hide();
+                });
+
+                $("#tablelist").change(function () {
+                    console.log($(this).val());
+                    $('#loader').show();
+                    let tableName = $(this).val();
+                    $.post("/columns", { table: tableName }, function (result) {
+                        console.log(result);
+                        const container = document.getElementById('dataGrid');
+                        let columns = [];
+                        let headers = [];
+                        $(result).each(function () {
+                            console.log(this.column_name)
+                            headers.push(this.column_name);
+                            let type;
+                            switch (this.type) {
+                                case "text":
+                                    type = this.type;
+                                    columns.push({
+                                        data: this.column_name,
+                                        type: type,
+                                        editor: false,
+                                        readOnly: true,
+                                    });
+                                    break;
+                                case "date":
+                                    type = this.type;
+                                    columns.push({
+                                        data: this.column_name,
+                                        type: type,
+                                        editor: false,
+                                        readOnly: true,
+                                    });
+                                    break;
+                                case "date":
+                                    type = this.type;
+                                    columns.push({
+                                        data: this.column_name,
+                                        type: type,
+                                        editor: false,
+                                        readOnly: true,
+                                    });
+                                    break;
+                                case "int":
+                                    type = "numeric";
+                                    columns.push({
+                                        data: this.column_name,
+                                        type: type,
+                                        editor: false,
+                                        readOnly: true,
+                                    });
+                                    break;
+                                case "float":
+                                    type = "numeric";
+                                    columns.push({
+                                        data: this.column_name,
+                                        type: type,
+                                        editor: false,
+                                        readOnly: true,
+                                        numericFormat: {
+                                            pattern: '0.00'
+                                        }
+                                    });
+                                    break;
+
+                            }
+                        });
+
+                        let gridSettings = {
+                            licenseKey: 'non-commercial-and-evaluation',
+                            columns: columns,
+                            stretchH: 'all',
+                            width: "100%",
+                            autoWrapRow: true,
+                            height: "70vh",
+                            manualRowResize: true,
+                            manualColumnResize: true,
+                            rowHeaders: true,
+                            colHeaders: headers,
+                            manualRowMove: true,
+                            manualColumnMove: true,
+                            contextMenu: false,
+                            filters: true,
+                            dropdownMenu: true,
+                            multiColumnSorting: true,
+                            data: [],
+                            autoColumnSize: {syncLimit: 300},
+                        };
+
+
+                        summary = new Handsontable(container, gridSettings);
+                        $.post("/tabledata", { table: tableName }, function (result) {
+                            summary.loadData(result);
+                            $('#loader').hide();
+                            $("#exportData").prop("disabled", false);
+                        });
+                    });
+
+                })
+            });
+
+            function exportData() {
+                const exportPlugin = summary.getPlugin('exportFile');
+                // export to downloadable file (named: MyFile.csv)
+                exportPlugin.downloadFile('csv', {
+                    columnHeaders: true,
+                    rowHeaders: true,
+                    filename: (new Date()).toISOString()
+                });
+            }
+
+        </script>
+</body>
+
+</html>

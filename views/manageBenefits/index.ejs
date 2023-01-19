@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>
+        CMS |
+        <%= title %>
+    </title>
+    <%- include("../partials/head") %>
+
+</head>
+
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid">
+
+                            <div class="card">
+                                <div class="card-header mb-0">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title">Benefits</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-actions float-end">
+                                                <button class="btn btn btn-outline-primary" title="Add"
+                                                    data-bs-toggle="modal" data-bs-target="#newUserModal"
+                                                    onclick="closeModal('newUserForm')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus align-middle">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg> New Benefits
+                                                </button>
+
+                                                <!-- <button id="ActiveBenefit" class="btn btn-outline-success"
+                                                    title="Active Member">
+                                                    Active
+                                                </button>
+                                                <button id="InactiveBenefit" class="btn btn-outline-warning"
+                                                    title="Inactive Member">
+                                                    Inactive
+                                                </button> -->
+                                                <button id="deleteAll" class="btn btn-outline-danger" title="Delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-trash align-middle">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path
+                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                        </path>
+                                                    </svg>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="table-responsive overflow-hidden">
+                                        <table id="tablerecords"
+                                            class="table table-striped table-bordered table-sm text-nowrap"
+                                            data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>ALL</th>
+                                                    <th>NAME</th>
+                                                    <th>CATEGORY</th>
+                                                    <th>DESCRIPTION</th>
+                                                    <th>COUNTRIES</th>
+                                                    <th>STATUS</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <th style="width: 28px;"><input type="checkbox" id="checkAll"
+                                                            name="checkAll" class="form-check-input" /></th>
+                                                    <td>
+                                                        <input id="ByName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByCategory" class="form-control" />
+                                                    </td>
+
+                                                    <td>
+                                                        <input id="ByDescription" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByCountry" class="form-control" />
+                                                    </td>
+                                                    <td></td>
+                                                    <!-- <td>
+                                                        <select id="ByStatus" class="form-select">
+                                                            <option value="">ALL</option>
+                                                            <option value="ACTIVE">ACTIVE</option>
+                                                            <option value="INACTIVE">INACTIVE</option>
+                                                            <option value="DELETED">DELETED</option>
+                                                        </select>
+                                                    </td> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody id="benefitsList">
+                                                <tr id="norecords">
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span id="fPageStats"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="pagination float-end" id="fPage"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+                        <div class="modal fade" id="newUserModal" tabindex="-1" style="display: none;" data-bs-backdrop="static" data-bs-keyboard="false"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">New Benefits</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="newUserForm" class="form needs-validation" autocomplete="off">
+                                        <div class="modal-body m-3">
+                                            <div class="mb-3">
+                                                <label class="form-label">Name</label>
+                                                <input class="form-control" id="name" name="name" autocomplete="off"
+                                                    required />
+                                                <div class="invalid-feedback">
+                                                    Name is required
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Category</label>
+                                                <select class="form-control select2" id="category" name="language"
+                                                    required data-toggle="select2" reqired>
+                                                    <option value="1">Choose Category</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Category is required
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <input class="form-control" id="description" name="description"
+                                                    autocomplete="off" required />
+                                                <div class="invalid-feedback">
+                                                    Description is required
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Countries</label>
+                                                <select class="form-control select2" multiple id="countries"
+                                                    name="countries" required data-toggle="select2" reqired>
+                                                    <option value="">Choose Countries</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Countries is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="addBenefits">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="updateUserModal" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Update Benefits</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="updateUserForm" class="form needs-validation" autocomplete="off">
+                                        <input type="hidden" id="benefitsid" value="">
+                                        <input type="hidden" id="hidden_name" value="">
+                                        <div class="modal-body m-3">
+                                            <div class="mb-3">
+                                                <label class="form-label">Name</label>
+                                                <input class="form-control" id="update_name" name="name"
+                                                    autocomplete="off" required />
+                                                <div class="invalid-feedback">
+                                                    Name is required
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Category</label>
+                                                <select class="form-control select2" id="update_category"
+                                                    name="language" required data-toggle="select2" reqired>
+                                                    <option value="1">Choose Category</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Category is required
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <input class="form-control" id="update_description" name="description"
+                                                    autocomplete="off" required />
+                                                <div class="invalid-feedback">
+                                                    Description is required
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Countries</label>
+                                                <select class="form-control select2" multiple id="update_countries"
+                                                    name="countries" required data-toggle="select2" reqired>
+                                                    <option value="">Choose Countries</option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Countries is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                id="updateBenefits">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="deleteUserModal" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="margin: auto;">Are You Sure to Delete!</h1>
+                                    </div>
+                                    <div>
+                                        <form id="deleteUserForm">
+                                            <div class="form-group">
+                                                <input id="prompt" type="text" class="form-control"
+                                                    style="margin: 30px 0px 30px 20px; width: 90%;">
+                                            </div>
+
+                                            <input type="hidden" id="hiddenbenefitid" value="">
+                                            <input type="hidden" id="hiddenbenefitname" value="">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer" style="justify-content: center;">
+                                        <button type="button" id="Yes" class="btn"
+                                            style="background-color: green; color: black;">Yes</button>
+                                        <button type="button" id="No" data-bs-dismiss="modal" class="btn"
+                                            style="background-color: red; color: black;">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="deleteAllUserModal" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="margin: auto;">Are You Sure to Delete!</h1>
+                                    </div>
+
+                                    <div class="modal-footer" style="justify-content: center;">
+                                        <button type="button" id="deleteAll" class="btn"
+                                            style="background-color: green; color: black;"
+                                            onclick="bulkDelete()">Yes</button>
+                                        <button type="button" id="Not" data-bs-dismiss="modal" class="btn"
+                                            style="background-color: red; color: black;">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmModalLabel" aria-hidden="false">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="justify-content: center;">
+                                        <h3 class="modal-title">Are you sure delete?</h3>
+                                        <div id="confrmdelete"></div>
+                                        <input type="hidden" id="hiddenbenefitid" value="">
+                                    </div>
+                                    <div class="modal-footer" style="justify-content: center;">
+                                        <button type="button" id="delete" class="btn"
+                                            style="background-color: green; color: black;">Yes</button>
+                                        <button type="button" id="notConfirm" data-dismiss="modal" class="btn"
+                                            style="background-color: red; color: black;">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+    </div>
+    <%- include("../partials/foot") %>
+        <%- include("../partials/scripts") %>
+
+            <style>
+                .select2-container--bootstrap4 .select2-selection--multiple .select2-search--inline .select2-search__field {
+                    min-width: 8em !important;
+                }
+            </style>
+            <script src="js/pagination.js"></script>
+            <script src="js/benefits.js"></script>
+</body>
+
+</html>

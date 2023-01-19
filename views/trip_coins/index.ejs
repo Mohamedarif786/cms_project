@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+    <title>CMS | <%= title %>
+    </title>
+    <%- include("../partials/head") %>
+</head>
+<style>
+th, td{
+    white-space: nowrap;
+}
+</style>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title">Trip Coins</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-actions float-end">
+                                                <button class="btn btn btn-outline-primary" id="AddNewtripCoin" title="Add">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus align-middle">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg> New Trip Coin
+                                                </button>
+
+                                                <button id="ActivetripCoin" class="btn btn-outline-success"
+                                                    title="Active Trip Coin">
+                                                    Active
+                                                </button>
+                                                <button id="InactivetripCoin" class="btn btn-outline-warning"
+                                                    title="Inactive Trip Coin">
+                                                    Inactive
+                                                </button>
+                                                <button id="deleteAll" class="btn btn-outline-danger" title="Delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-trash align-middle">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path
+                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                        </path>
+                                                    </svg>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="tablerecords"
+                                            class="table table-striped table-bordered table-sm table-hover"
+                                            data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>All</th>
+                                                    <th>CLUB NAME</th>
+                                                    <th>MEMBER ID</th>
+                                                    <th>MEMBER'S NAME</th>
+                                                    <th>CRUISELINE</th>
+                                                    <th>EMBARKATION PORT</th>
+                                                    <th>DESTINATION</th>
+                                                    <th>CONFIRMATION</th>
+                                                    <th>MATURITY DATE</th>
+                                                    <th>TOTAL COST</th>
+                                                    <th>TRIP COIN</th>
+                                                    <th>STATUS</th>
+                                                    <th>DATE APPROVED</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tripCoinList">
+                                                <tr>
+                                                    <td id="norecords" colspan="8"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <span id="fPageStats"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="pagination float-end" id="fPage"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+            </div>
+    </div>
+    <%- include("../partials/foot") %>
+        <div class="modal fade" id="tripCoinModal" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form id="newForm" class="form needs-validation" autocomplete="off">
+                        <input type="hidden" id="roleId" />
+                        <div class="modal-header">
+                            <h4 class="modal-title">New Trip Coins</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label>Program</label>
+                                    <select class="form-select" id="tc-program" name="program" required>
+                                        <option value="">Select Program</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Email ID</label>
+                                    <select id="tc-email" name="email" class="form-select select2" required>
+                                        <option value="">Select Member</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label>Units</label>
+                                    <input type="number" id="tc-units" name="units" class="form-control" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cruise line</label>
+                                    <input type="text" id="tc-cruise_line" name="cruise_line" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label>Cruise Post</label>
+                                    <input type="text" id="tc-cruise_post" name="cruise_post" class="form-control" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Destination</label>
+                                    <input type="text" id="tc-destination" name="destination" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label>Confirmation</label>
+                                    <input type="text" id="tc-confirmation" name="confirmation" class="form-control" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cruise Cost</label>
+                                    <input type="number" id="tc-cruise_cost" name="cruise_cost" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label>Reimbursedat</label>
+                                    <input type="date" id="tc-reimbursedat" name="reimbursedat" class="form-control" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Comments</label>
+                                    <input type="text" id="tc-comments" name="comments" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="Save">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        <input type="hidden" id="tripCoinId">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%- include("../partials/scripts") %>
+            <script src="js/pagination.js"></script>
+            <script src="js/trip-coin.js"></script>
+</body>
+
+</html>

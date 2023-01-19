@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CMS | Data Importer</title>
+    <%- include("../partials/head") %>
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title">Data Importer</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-actions float-end">
+                                                <button class="btn btn-outline-primary" id="UploadFile"
+                                                    title="Upolod CSV" data-bs-toggle="modal"
+                                                    data-bs-target="#uploadModal">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-upload align-middle me-2">
+                                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                                    </svg><span class="align-middle">Upload</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="row d-flex">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="table-responsive border" style="height: 190px;">
+                                                <table class="table table-striped table-bordered table-sm tableFixHead">
+                                                    <thead>
+                                                        <tr id="tableHeader"></tr>
+                                                    </thead>
+                                                    <tbody id="tableBody"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="table-responsive border" style="height: 190px;">
+                                                <table class="table table-bordered table-sm tableFixHead"
+                                                    id="tableColumns">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Column</th>
+                                                            <th>Data Type</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="mapBody"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex">
+                                        <div class="col-md-10 mb-2">
+                                            Please select data type correctly before importing data
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <button class="btn btn-outline-primary float-end" id="importData"
+                                                title="Import Data" disabled>
+                                                <span class="align-middle">Import Data</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+                        <div class="modal fade" id="uploadModal" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Upload CSV File</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="uploadForm" class="form needs-validation" autocomplete="off">
+                                        <div class="modal-body m-3">
+                                            <div class="row d-flex">
+                                                <div class="col-md-12 mb-2">
+                                                    <input type="file" id="csv" class="form-control" accept=".csv" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="upload">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+    </div>
+    <%- include("../partials/scripts") %>
+        <script>
+            const reader = new FileReader();
+            let table; let tableData; let headers;
+            $(document).ready(function () {
+                $("#upload").click(function () {
+                    var files = $('#csv').prop('files');
+                    console.log(files);
+                    table = files[0].name.replace(".csv", " ").trim();
+
+                    reader.readAsText(files[0]);
+                    $("#uploadModal").modal('hide')
+                    return false;
+                });
+
+                $("#importData").click(function () {
+                    importData();
+                })
+            });
+
+            function importData() {
+                console.log("table:", table);
+                //console.log("data:", tableData);
+                let rows = $.find("#mapBody tr");
+                let struct = {};
+                $(rows).each(function () {
+                    let first = $(this).find("td:first-child")[0];
+                    let last = $(this).find("td:last-child")[0];
+                    if ($(first).text() && $($(last).find("select")[0]).val()) {
+                        let key = $(first).text().replace("\n", "");
+                        struct[key] = $($(last).find("select")[0]).val();
+                    }
+                });
+                //if (struct) {
+                console.log("struct: ", struct);
+                //}
+                tableData.forEach(r => {
+                    $.post("/import-data", {
+                        table: table,
+                        struct: struct,
+                        data: r
+                    }, function (result) {
+                    });
+                });
+            }
+            reader.onload = function (event) {
+                let data = event.target.result;
+                headers = data.slice(0, data.indexOf("\n")).split(",");
+                headers = headers.map(h => h.replaceAll("\"", ""));
+
+                let rows = data.slice(data.indexOf("\n") + 1).split("\n");
+
+                tableData = rows.map(function (row) {
+                    const values = row.split(",");
+                    const el = headers.reduce(function (object, header, index) {
+                        header = header.replace("\r", "");
+                        try {
+                            let v = values[index].replaceAll("\r", "");
+                            if (!v.includes("null")) {
+                                object[header] = v.replaceAll("\"", "");
+                            } else {
+                                object[header] = null;
+                            }
+
+                        } catch (error) {
+                            object[header] = null;
+                        }
+                        return object;
+                    }, {});
+                    return el;
+                });
+
+                $("#tableHeader").empty();
+                $("#tableBody").empty();
+                headers.forEach(h => {
+                    $("#tableHeader").append(`<th>${h}</th>`);
+                    console.log("h:", h);
+                    $("#mapBody").append(`<tr><td>${h}</td><td><select id="${h}" class="form-control"><option value="boolean">Boolean</option><option value="number">Number</option><option value="text">Text</option></select></td></tr>`);
+                });
+                tableData.forEach(r => {
+                    $("#tableBody").append(`<tr id="${r.id}">`);
+                    let cols = Object.keys(r);
+                    //console.log("cols: ", cols.length);
+                    for (let i = 0; i < cols.length; i++) {
+                        $(`#${r.id}`).append(`<td>${r[cols[i]]}</td>`);
+                    }
+                    $("#tableBody").append("</tr>");
+                });
+                $("#importData").prop("disabled", false);
+            };
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<style>
+    .sidebar-item .active
+    {
+        color: #03a9f4;
+    }
+</style>
+<nav id="sidebar" class="sidebar <% if(typeof collapsed != 'undefined' && collapsed == 'true'){ %> collapsed <% } %>
+">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="/dashboard">
+            <img src="https://debk60diwzf0m.cloudfront.net/images/logo.png" height="50"/>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="adminMenu sidebar-item" id="sideNav1">
+                    <a data-bs-target="#admin" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Administration</span>
+                    </a>
+                    <ul id="admin" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-roles" href="/roles">Roles</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-resource" href="/resource">Resources</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-policy" href="/policy">Policies</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-users" href="/users">Users</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-policy-owners" href="/policy-owners">Policy Owners</a></li>
+                    </ul>
+            </li>
+
+            <li class="adminMenu sidebar-item"         id="sideNav2">
+                    <a data-bs-target="#dataHolder" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Data</span>
+                    </a>
+                    <ul id="dataHolder" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item "><a class="sidebar-link" id="menu-import" href="/import">Import</a></li>
+                            <li class="sidebar-item "><a class="sidebar-link" id="menu-export" href="/export">Export</a></li>
+                    </ul>
+            </li>
+            <li class="adminMenu sidebar-item"  id="sideNav3">
+                    <a data-bs-target="#configuration" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span
+                            class="align-middle">Configuration</span>
+                    </a>
+                    <ul id="configuration" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-menu" href="/menu">Menus</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-manage_language" href="/manage_language">Languages</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-manage-module" href="/modules">Modules</a></li>
+                    </ul>
+            </li>
+            <li class="adminMenu sidebar-item " id="sideNav4">
+                    <a data-bs-target="#config" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Onboarding</span>
+                    </a>
+                    <ul id="config" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-club" href="/club">Clubs</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-language" href="/language">Languages</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-tiers" href="/tiers">Tiers</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-manage-module-club" href="/manage-module-club">Modules</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-manage_suppliers" href="/manage_suppliers">Suppliers</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-markups" href="/markups">Markups</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-manage_benefits" href="/manage_benefits">Benefits</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-members" href="/members">Members</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-programs" href="/programs">Programs</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-settings" href="/settings">Settings</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-smtp" href="/smtp">Smtps</a></li>
+                            <!-- <li class="sidebar-item"><a class="sidebar-link" id="menu-orders" href="/orders">Orders</a></li> -->
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-currency" href="/currency">Currency</a></li>
+                    </ul>
+            </li>
+
+            <li style="display: none;" class="clubMenu sidebar-item" id="sideNav4">
+                    <a href="/members" collapse class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Members</span>
+                    </a>
+            </li>
+            <li class="sidebar-item"
+                    id="sideNav5">
+                    <a data-bs-target="#reports" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Reports</span>
+                    </a>
+                    <ul id="reports" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-member-report" href="/member-report">Members</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-order-report" href="/order-report">Orders</a></li>
+                    </ul>
+            </li>
+            <li class="sidebar-item "
+                    id="sideNav6">
+                    <a data-bs-target="#program-menu" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Allocation</span>
+                    </a>
+                    <ul id="program-menu" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-loyalty-allocation" href="/loyalty-allocation">Loyalty</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-order-report" href="/referral">Referral </a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-trip-coins" href="/trip-coins">Trip Coins </a></li>
+                    </ul>
+            </li>
+            <li class="adminMenu sidebar-item" id="sideNav7">
+                    <a data-bs-target="#content" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Content</span>
+                    </a>
+                    <ul id="content" class="sidebar-dropdown list-unstyled collapse"
+                            data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-templates" href="/templates">Templates</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-splash" href="/splash">Splash</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-list" href="/list">Manage list of values</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" id="menu-pages" href="/pages">Pages</a></li>
+                    </ul>
+            </li>
+
+        </ul>
+    </div>
+</nav>

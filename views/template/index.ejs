@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>
+		<%= pageTitle %>
+	</title>
+	<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"> -->
+	<%- include("../partials/head") %>
+		<script src="https://debk60diwzf0m.cloudfront.net/js/settings.js"></script>
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="wrapper">
+		<%- include("../partials/sidebar") %>
+			<div class="main">
+				<%- include("../partials/header") %>
+					<main class="content p-3">
+						<div class="container-fluid p-0">
+							<div class="row" id="msgContent" style="display: none;">
+								<div class="alert alert-warning alert-dismissible" role="alert">
+									<button type="button" class="btn-close" data-bs-dismiss="alert"
+										aria-label="Close"></button>
+
+									<div class="alert-message">
+										<p class="mb-0"></p>
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header">
+									<div class="row">
+										<div class="col-md-6">
+											<h5 class="card-title">
+												Templates
+											</h5>
+											<h6 class="card-subtitle text-muted"></h6>
+										</div>
+										<div class="col-md-6">
+											<div class="card-actions float-end">
+												<button id="addNewTemplate" class="btn btn-outline-primary"><i
+														class="align-middle me-2" data-feather="plus"></i>
+													New Template</button>
+												<button id="deleteAll" class="btn btn-outline-danger" title="Delete">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+														viewBox="0 0 24 24" fill="none" stroke="currentColor"
+														stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+														class="feather feather-trash align-middle">
+														<polyline points="3 6 5 6 21 6"></polyline>
+														<path
+															d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+														</path>
+													</svg>
+													Delete
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card-body">
+									<table id="main-table" class="table table-striped table-bordered table-sm"
+										data-resizable-columns-id="demo-table" style="width:100%">
+										<thead>
+											<tr>
+												<th data-action="true">ACTION</th>
+												<th data-search="false" data-all="true" style="width:50px">ALL
+												</th>
+												<th data-search="true">SUBJECT</th>
+												<th data-search="true">TYPE</th>
+												<th data-search="true">SUB TYPE</th>
+												<th data-search="true">LANGUAGE</th>
+												<th data-search="true">CLUB</th>
+												<th data-search="true">MODULE</th>
+											</tr>
+										</thead>
+										<tbody id="table-body">
+										</tbody>
+									</table>
+									<!-- pagination support element (fPageStats display stats if incuded)-->
+									<div class="row">
+										<div class="col-md-6">
+											<span id="fPageStats"></span>
+										</div>
+										<div class="col-md-6">
+											<ul class="pagination float-end" id="fPage"></ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</main>
+					<div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-md" id="dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">New Template</h5>
+									<div class="float-end">
+										<a role="button" id="maximize">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+												viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round"
+												class="feather feather-maximize-2 align-middle me-2">
+												<polyline points="15 3 21 3 21 9"></polyline>
+												<polyline points="9 21 3 21 3 15"></polyline>
+												<line x1="21" y1="3" x2="14" y2="10"></line>
+												<line x1="3" y1="21" x2="10" y2="14"></line>
+											</svg>
+										</a>
+										<a role="button" id="minimize">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+												viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round"
+												class="feather feather-minimize-2 align-middle me-2">
+												<polyline points="4 14 10 14 10 20"></polyline>
+												<polyline points="20 10 14 10 14 4"></polyline>
+												<line x1="14" y1="10" x2="21" y2="3"></line>
+												<line x1="3" y1="21" x2="10" y2="14"></line>
+											</svg>
+										</a>
+										<a role="button" data-bs-dismiss="modal" aria-label="Close">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x align-middle me-2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+										</a>
+									</div>
+
+
+								</div>
+								<div class="modal-body">
+									<form id="addForm" class="form needs-validation" autocomplete="off">
+
+										<ul class="nav nav-tabs">
+											<li class="nav-item">
+												<a class="nav-link active" data-bs-toggle="tab"
+													href="#dataform">Data</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-bs-toggle="tab" href="#datacontent">Content</a>
+											</li>
+										</ul>
+
+										<!-- Tab panes -->
+										<div class="tab-content">
+											<div class="tab-pane p-3 border-top-0 border active" id="dataform">
+												<div class="row">
+													<div class="col-md-6 mb-3">
+														<label class="form-label">Type</label>
+														<select id="type" required custom_validation="true"
+															custom_validation_msg="Please select type"
+															class="form-select">
+															<option value="">Choose Type</option>
+															<option value="EMAIL">EMAIL</option>
+															<option value="SMS">SMS</option>
+														</select>
+													</div>
+
+													<div class="col-md-6 mb-3">
+														<label class="form-label">Sub Type</label>
+														<select id="subtype" required custom_validation="true"
+															custom_validation_msg="Please select sub type"
+															class="form-select">
+															<option value="">Choose Sub Type</option>
+															<option value="WELCOME">Welcome</option>
+															<option value="PAYMENT">Payment</option>
+															<option value="CONFIRMATION">Confirmation</option>
+															<option value="NEW_PASSWORD">New Password
+															</option>
+															<option value="CHANGE_PASSWORD">Change Password
+															</option>
+															<option value="RESET_PASSWORD">Reset Password
+															</option>
+															<option value="FORGOT_PASSWORD">Forgot Password
+															</option>
+															<option value="MEMBER_EMAIL_CHANGE">Member Email
+																Change</option>
+															<option value="MEMBERSHIP_TIER_CHANGE">Membership
+																Tier change</option>
+															<option value="MEMBERSHIP_STATUS_CHANGE"> Member
+																status change</option>
+																<option value="PRIVACY_DATA_REQUEST"> Privacy Data Request</option>
+														</select>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6 mb-3">
+														<label class="form-label">Subject</label>
+														<input class="form-control" id="subject" autocomplete="off"
+															required custom_validation="true"
+															custom_validation_msg="Please enter subject" />
+													</div>
+
+													<div class="col-md-6 mb-3">
+														<label class="form-label">Language</label>
+														<select id="language" required custom_validation="true"
+															custom_validation_msg="Please select language"
+															class="form-select">
+															<option value="">Choose Language</option>
+															<% languages.forEach(function(data){ %>
+																<option value="<%=data.code %>">
+																	<%=data.name %>
+																</option>
+																<% }); %>
+														</select>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6 mb-3">
+														<label class="form-label">Club</label>
+														<select id="clubid" custom_validation="true"
+															class="form-select">
+															<option value="0">Choose Club</option>
+															<% clubs.forEach(function(data){ %>
+																<option value="<%=data.id %>">
+																	<%=data.name %>
+																</option>
+																<% }); %>
+														</select>
+													</div>
+
+													<div class="col-md-6 mb-3">
+
+														<label class="form-label">Module</label>
+														<select id="moduleid" class="form-select">
+															<option value="">Choose Module</option>
+														</select>
+														</select>
+
+													</div>
+												</div>
+											</div>
+											<div class="tab-pane fade p-3 border-top-0 border" id="datacontent">
+												<textarea id="mail_content" class="form-control"></textarea>
+											</div>
+										</div>
+
+									</form>
+								</div>
+
+								<div class="modal-footer">
+									<input type="hidden" id="id">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" id="add-confirm">Save</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<%- include("../partials/foot") %>
+						<%- include("../partials/footer") %>
+			</div>
+	</div>
+	<%- include("../partials/scripts") %>
+		<!--
+			enable for autocomplete
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+	-->
+		<script>
+			const _apiBase = '/template';
+			const _dataPolicy = [];
+		</script>
+		<script src="../js/pagination.js"></script>
+		<script src="../js/template.js"></script>
+		<script>
+			//$(document).ready(function(){
+			$("#addModal #minimize").hide();
+			$("#addModal #maximize").click(function () {
+				$("#dialog").addClass("modal-fullscreen");
+				$("#addModal #minimize").show();
+				$("#addModal #maximize").hide();
+			});
+
+			$("#addModal #minimize").click(function () {
+				$("#dialog").removeClass("modal-fullscreen");
+				$("#addModal #minimize").hide();
+				$("#addModal #maximize").show();
+			})
+			//})
+		</script>
+</body>
+
+</html>

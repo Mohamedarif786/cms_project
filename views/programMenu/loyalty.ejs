@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        CMS |
+        <%= title %>
+    </title>
+    <%- include("../partials/head") %>
+        <title>Member List</title>
+        <%- include("../partials/head") %>
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid">
+
+                            <div class="card">
+                                <div class="card-header mb-0">
+                                    <div class="row mb-2">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title"><%= title %></h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-3" id="club_div">
+                                            <div class="form-floating">
+                                                <select class="form-control select2"  id="club" name="club" required data-toggle="select2">
+                                                    <option value="">Choose Club</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-floating">
+                                                <select class="form-select" name="program_name" id="program_name" onchange =programChange() required data-toggle="select2" onchange="fetchprogram(this.value)">
+                                                    <option value="">Choose Program</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-pill btn-primary" onclick="getClubMembers()">Search</button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-pill btn-primary float-end" id="bulk_allocate_btn">Bulk Allocate</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="boottable">
+                                        <table id="tablerecords" class="table table-striped table-bordered table-sm" data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>ALL</th>
+                                                    <th>FIRST NAME</th>
+                                                    <th>LAST NAME</th>
+                                                    <th>EMAIL</th>
+                                                    <th>Balance</th>
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <th style="width: 28px;"><input type="checkbox" id="checkAll" name="checkAll" class="form-check-input" /></th>
+                                                    <td>
+                                                        <input id="ByFName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByLName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="ByEmail" class="form-control" />
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="loyaltyList">
+                                                <tr id="norecords">
+                                                    <td colspan="15"><center>No records found</center></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span id="fPageStats"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="pagination float-end" id="fPage"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+                </div>
+            </div>
+
+            <div class="modal fade" id="memberAllocateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        
+                        <form id="newForm" class="form needs-validation" autocomplete="off">
+                            <input type="hidden" id="allocateId" />
+                            <div class="modal-header">
+                                <h4 class="modal-title">Member Allocate</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+    
+                            <div class="modal-body">
+                                <input type="hidden" id="usr_mail" value="">
+                                <input type="hidden" id="programid" value="">
+                                <div class="mb-3">
+                                    <label class="form-label">Units</label>
+                                    <input type="number" class="form-control" id="unit" name="unit" autocomplete="off" required />
+                                    <div class="invalid-feedback">
+                                        Units is required
+                                    </div>
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label class="form-label">Comments</label>
+                                    <textarea class="form-control" id="comment" name="comment" autocomplete="off" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Comments is required
+                                    </div>
+                                </div>
+    
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="Save">Save</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="allocateModalId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <form id="newForm" class="form needs-validation" autocomplete="off">
+                            <input type="hidden" id="allocateId" />
+                            <div class="modal-header">
+                                <h4 class="modal-title">Member Allocate</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Email ID</label>
+                                    <input type="text" class="form-control" id="allocateEmail" readonly name="email" autocomplete="off" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Currency</label>
+                                    <input type="text" class="form-control" id="allocateCurrency" readonly name="currency" autocomplete="off" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Exchange Rate</label>
+                                    <input type="text" class="form-control" id="allocateExchangeRate" readonly name="exchangeRate" autocomplete="off" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Unit</label>
+                                    <input type="text" class="form-control" id="allocateUnit" name="unit" autocomplete="off" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estimated</label>
+                                    <input type="text" class="form-control" id="allocateEstimated" readonly name="estimated" autocomplete="off" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Actual</label>
+                                    <input type="text" class="form-control" id="allocateActual" name="actual" autocomplete="off" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Reason</label>
+                                    <textarea class="form-control" id="allocateDescription" name="description" autocomplete="off" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="btn_allocate">Save</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <%- include("../partials/foot") %>
+        <%- include("../partials/scripts") %>
+        
+    <script src="js/pagination.js"></script>
+    <script src="js/loyalty.js"></script>
+    </body> 
+</html>

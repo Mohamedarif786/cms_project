@@ -1,0 +1,348 @@
+<div class="sidebar-order">
+    <div class="sidebar-content-order js-simplebar">
+        <h3 class="text-center" style="padding-top:10px">Filter</h3>
+        <form id="filterForm">
+            <ul class="sidebar-nav">
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#settingId" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Order Id</span>
+                    </a>
+                    <ul id="settingId" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <input class="form-control" id="orderId" />
+                    </ul>
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#settingCnf" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Confirmation
+                            #</span>
+                    </a>
+                    <ul id="settingCnf" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <input class="form-control" id="orderCnf" />
+                        <!--<select class="form-control" id="orderCnf">
+                            <option value="All">--All--</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>-->
+                    </ul>
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#settingClubs" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Clubs</span>
+                    </a>
+                    <ul id="settingClubs" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="club" multiple>
+                            <!--  <option value="">Choose club</option>-->
+                        </select>
+                    </ul>
+
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#settingOrd" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Created
+                            Date</span>
+                    </a>
+                    <ul id="settingOrd" class="sidebar-dropdown collapse" data-bs-parent="#orderSetting">
+
+                        <div class="mb-3">
+                            <label class="form-label">From
+                                <!--Check In Date-->
+                            </label>
+                            <input class="form-control datesingle" id="orderDateFrom" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">To
+                                <!--Check Out Date-->
+                            </label>
+                            <input class="form-control datesingle" id="orderDateTo" />
+                        </div>
+
+                    </ul>
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#settingPmt" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Payment
+                            Date</span>
+                    </a>
+                    <ul id="settingPmt" class="sidebar-dropdown collapse" data-bs-parent="#orderSetting">
+
+                        <div class="mb-3">
+                            <label class="form-label">From
+                                <!--Check In Date-->
+                            </label>
+                            <input class="form-control datesingle" id="orderPaymentFrom" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">To
+                                <!--Check Out Date-->
+                            </label>
+                            <input class="form-control datesingle" id="orderPaymentTo" />
+                        </div>
+
+                    </ul>
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting6" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Report
+                            Output</span>
+                    </a>
+                    <ul id="setting6" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="reportOutput">
+                            <option value="All">--All--</option>
+                            <option value="Key">Key Details</option>
+                            <option value="Full">Full Details</option>
+                        </select>
+                    </ul>
+
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting7" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">By guest
+                            name</span>
+                    </a>
+                    <ul id="setting7" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <input class="form-control" id="orderPasName" />
+                    </ul>
+
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting8" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">By member
+                            email</span>
+                    </a>
+                    <ul id="setting8" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <input class="form-control" id="orderPasEmail" />
+                    </ul>
+
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting4331" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Refundable</span>
+                    </a>
+                    <ul id="setting4331" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control">
+                            <option value="All">--All--</option>
+                            <option value="REFUNDABLE">REFUNDABLE</option>
+                            <option value="NONREFUNDABLE">NONREFUNDABLE</option>
+                        </select>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting1" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Travel Date</span>
+                    </a>
+                    <ul id="setting1" class="sidebar-dropdown collapse" data-bs-parent="#orderSetting">
+
+                        <div class="mb-3">
+                            <label class="form-label">Travel Start
+                                <!--Check In Date-->
+                            </label>
+                            <input class="form-control datesingle" id="orderTravelFrom" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Travel End
+                                <!--Check Out Date-->
+                            </label>
+                            <input class="form-control datesingle" id="orderTravelTo" />
+                        </div>
+
+                    </ul>
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting2" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Cancel Date</span>
+                    </a>
+                    <ul id="setting2" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+
+                        <div class="mb-3">
+                            <label class="form-label">From</label>
+                            <input class="form-control datesingle" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">To</label>
+                            <input class="form-control datesingle" />
+                        </div>
+
+                    </ul>
+
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting244" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Refunded
+                            Date</span>
+                    </a>
+                    <ul id="setting244" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+
+                        <div class="mb-3">
+                            <label class="form-label">From</label>
+                            <input class="form-control datesingle" id="orderRefundFrom" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">To</label>
+                            <input class="form-control datesingle" id="orderRefundTo" />
+                        </div>
+
+                    </ul>
+
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting3" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">MOR</span>
+                    </a>
+                    <ul id="setting3" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="orderMor">
+                            <option value="All">--All--</option>
+                            <option value="CTS">CTS</option>
+                            <option value="SUPPLIER">SUPPLIER</option>
+                        </select>
+                    </ul>
+
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting4" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Order
+                            Status</span>
+                    </a>
+                    <ul id="setting4" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="orderStatus">
+                            <option value="All">--All--</option>
+                            <option value="CREATED">CREATED</option>
+                            <option value="BOOKED">BOOKED</option>
+                            <option value="CANCEllED">CANCEllED</option>
+                            <option value="FAILED">FAILED</option>
+                        </select>
+                    </ul>
+
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting433" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Order Mode</span>
+                    </a>
+                    <ul id="setting433" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="orderMode">
+                            <option value="All">--All--</option>
+                            <option value="ONLINE">ONLINE</option>
+                            <option value="OFFLINE">OFFLINE</option>
+                        </select>
+                    </ul>
+
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting43311" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Payment
+                            mode</span>
+                    </a>
+                    <ul id="setting43311" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control">
+                            <option value="All">--All--</option>
+                            <option value="CARD">CARD</option>
+                            <option value="CRYPTO">CRYPTO</option>
+                        </select>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting4330" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Payment
+                            gateway</span>
+                    </a>
+                    <ul id="setting4330" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control">
+                            <option value="All">--All--</option>
+                            <!--<option value="BITPAY">Bitpay</option>-->
+                            <option value="COINPAY">COINPAY</option>
+                            <!--<option value="PAYPAL">Paypal</option>-->
+                            <option value="STRIPE">STRIPE</option>
+                        </select>
+                    </ul>
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting14" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Payment
+                            Status</span>
+                    </a>
+                    <ul id="setting14" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="paymentStatus">
+                            <option value="All">--All--</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                            <!--<option value="PENDING">Pending</option>
+                            <option value="SUCCEED">Succeed</option>
+                            <option value="FAILED">Failed</option>-->
+                        </select>
+                    </ul>
+
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting141" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Invoice
+                            type</span>
+                    </a>
+                    <ul id="setting141" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="orderInvoiveType">
+                            <option value="All">--All--</option>
+                            <option value="NONE">NONE</option>
+                            <option value="SOLD">SOLD</option>
+                            <option value="REFUNDED">REFUNDED</option>
+                            <option value="TEST">TEST</option>
+                        </select>
+                    </ul>
+
+                </li>
+
+
+                <li class="sidebar-item-order" style="width:90%">
+                    <a data-bs-target="#setting5" data-bs-toggle="collapse" class="sidebar-link-order collapsed">
+                        <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Travel Type
+                        </span>
+                    </a>
+                    <ul id="setting5" class="sidebar-dropdown collapse " data-bs-parent="#orderSetting">
+                        <select class="form-control" id="orderTravelType">
+                            <option value="All">--All--</option>
+                            <option value="FLIGHT">FLIGHT</option>
+                            <option value="HOTEL">HOTEL</option>
+                            <option value="CAR">CAR</option>
+                            <!--<option value="VR">VR</option>-->
+                            <option value="ACTIVITY">ACTIVITY</option>
+                            <option value="TOUR">TOUR</option>
+                            <option value="CRUISE">CRUISE</option>
+                            <option value="INSURANCE">INSURANCE</option>
+                            <option value="GATEWAY TRIP">GATEWAY TRIP</option>
+                            <option value="GATEWAY CRUISE">GATEWAY CRUISE</option>
+                            <option value="GROUP TRIP">GROUP TRIP</option>
+                            <option value="GROUP CRUISE">GROUP CRUISE</option>
+                            <option value="VACATION RENTAL">VACATION RENTAL</option>
+                        </select>
+                    </ul>
+
+                </li>
+
+
+            </ul>
+        </form>
+    </div>
+</div>

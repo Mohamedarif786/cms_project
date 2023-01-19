@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>
+        CMS |
+        <%= title %>
+    </title>
+    <%- include("../partials/head") %>
+
+</head>
+
+
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar") %>
+            <div class="main">
+                <%- include("../partials/header") %>
+                    <main class="content p-3">
+                        <div class="container-fluid p-0">
+
+                            <div class="card">
+                                <div class="card-header mb-0">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="card-title">Manage Markups</h4>
+                                            <h6 class="card-subtitle text-muted"></h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-actions float-end">
+                                                <button class="btn btn btn-outline-primary" title="add"
+                                                    data-bs-toggle="modal" data-bs-target="#newUserModal"
+                                                    onclick="closeModal('markupForm')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus align-middle">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg> New Markup
+                                                </button>
+
+                                                <button type="button" id="ActiveMarkup" class="btn btn-outline-success"
+                                                    title="Active Markup">
+                                                    Active
+                                                </button>
+                                                <button type="button" id="InactiveMarkup"
+                                                    class="btn btn-outline-warning" title="Inactive Markup">
+                                                    Inactive
+                                                </button>
+                                                <button class="btn btn btn-outline-danger" title="Add" id="deleteAll">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="table-responsive">
+                                        <table id="tablerecords"
+                                            class="table table-striped table-bordered table-sm table-hover text-nowrap"
+                                            data-resizable-columns-id="demo-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ACTION</th>
+                                                    <th>ALL</th>
+                                                    <th>MODULE</th>
+                                                    <th>SUPPLIER</th>
+                                                    <th>TIER</th>
+                                                    <th>RATE&nbsp;TYPE</th>
+                                                    <th>PAYMENT&nbsp;TERM</th>
+                                                    <th>PUBLIC&nbsp;PRICE</th>
+                                                    <th>DISCOUNT</th>
+                                                    <th title="Form Of Payment">FOP</th>
+                                                    <th>MARGIN</th>
+                                                    <th>CREDIT</th>
+                                                    <th>METHOD</th>
+                                                    <th>STATUS</th>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>
+                                                        <input type="checkbox" id="checkAll" name="checkAll"
+                                                            class="form-check-input" />
+                                                    </th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>
+                                                        <select id="ByStatus" class="form-select">
+                                                            <option value="">ALL</option>
+                                                            <option value="ACTIVE">ACTIVE</option>
+                                                            <option value="INACTIVE">INACTIVE</option>
+                                                            <option value="DELETE">DELETE</option>
+                                                        </select>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="markupList">
+                                                <tr id="norecords">
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <span id="fPageStats"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="pagination float-end" id="fPage"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include("../partials/footer") %>
+                        <div class="modal fade" id="newUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">New Markup</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="markupForm" class="form needs-validation" autocomplete="off">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Club</label>
+                                                    <select class="form-control select2" id="markupClubId" onchange="clubChanged()" name="clubid"
+                                                        data-toggle="select2" required>
+                                                        <option value="">Choose Club</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Module</label>
+                                                    <select class="form-select select2" id="moduleid" name="moduleid"
+                                                        required data-toggle="select2"
+                                                        onchange="getSupplier(this.value)">
+                                                        <option value="">Choose Module</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Module id is required
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Tier</label>
+                                                    <select class="form-control select2" id="tierid" name="tierid"
+                                                        autocomplete="off" required data-toggle="select2">
+                                                        <option value="">Choose Tier</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Tier is required
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Supplier</label>
+                                                    <select class="form-control select2" id="supplierid"
+                                                        name="supplierid" required data-toggle="select2">
+                                                        <option value="">Choose Supplier</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Supplier id is required
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Rate Type </label>
+                                                    <select class="form-select" name="ratetype" id="ratetype">
+                                                        <option>Choose Rate Type</option>
+                                                        <option value="NEGOTIATED">NEGOTIATED</option>
+                                                        <option value="PUBLISHED">PUBLISHED</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Rate Type is required
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Payment Term </label>
+                                                    <select class="form-select my-1 mr-sm-2" name="payment"
+                                                        id="payment">
+                                                        <option>Choose Payment Term</option>
+                                                        <option value="PREPAID">PREPAID</option>
+                                                        <option value="POSTPAID">POSTPAID</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Payment is required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Distribution Type </label>
+                                                    <select class="form-select" name="distribution_type"
+                                                        id="distribution_type">
+                                                        <option>Choose Distribution Type</option>
+                                                        <option value="PRIVATE">PRIVATE</option>
+                                                        <option value="PUBLIC">PUBLIC</option>
+                                                        <option value="UNKNOWN">UNKNOWN</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Distribution Type is required
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Public Price</label>
+                                                    <select class="form-select" name="public_price"
+                                                        id="public_price">
+                                                        <option>Choose Public Price</option>
+                                                        <option value="true">TRUE</option>
+                                                        <option value="false">FALSE</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Public Price is required
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Form Of Payment </label>
+                                                    <select class="form-select" name="fop" id="fop">
+                                                        <option>Choose FOP</option>
+                                                        <option value="NONE">NONE</option>
+                                                        <option value="CUSTOMER">CUSTOMER</option>
+                                                        <option value="CTS">CTS</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        FOP is required
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-md-4 mb-3">
+                                                    <label class="form-label">Depend On</label>
+                                                    <select class="form-select" name="dependon" id="dependon">
+                                                        <option>Choose Depend On</option>
+                                                        <option value="SAVING">SAVING</option>
+                                                        <option value="OUR_PRICE">OUR_PRICE</option>
+                                                        <option value="MARGIN">MARGIN</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        DependOn is required
+                                                    </div>
+                                                </div> -->
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Method </label>
+                                                    <select class="form-select" name="method" id="method">
+                                                        <option>Choose Method</option>
+                                                        <option value="AUTHORIZE">AUTHORIZE</option>
+                                                        <option value="CAPTURE">CAPTURE</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Method is required
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Dependon</label>
+                                                    <select class="form-select" name="dependon" id="dependon">
+                                                        <option>Choose Dependon</option>
+                                                        <option value="SAVING">SAVING</option>
+                                                        <option value="OUR_PRICE">OUR_PRICE</option>
+                                                        <option value="MARGIN">MARGIN</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Margin</label>
+                                                    <input type="text" maxlength="5" value="0.00" readonly
+                                                        class="valid form-control" id="margin" name="margin"
+                                                        autocomplete="off" />
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Room Coin (%)</label>
+                                                    <input type="text" maxlength="5" value="0.00" readonly
+                                                        class="valid form-control" id="credit" name="credit"
+                                                        autocomplete="off" />
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Discount</label>
+                                                    <input type="text" maxlength="5" value="0.00" readonly
+                                                        class="valid form-control" id="discount" name="discount"
+                                                        autocomplete="off" />
+                                                </div>
+                                            </div>
+
+
+
+                                            <input type="hidden" id="markupid">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="addMarkup">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="deleteUserModal" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="margin: auto;">Are You Sure to Delete!</h1>
+                                    </div>
+                                    <div>
+                                        <form id="deleteUserForm">
+                                            <div class="form-group">
+                                                <input id="prompt" type="text" class="form-control"
+                                                    style="margin: 30px 0px 30px 20px; width: 90%;">
+                                            </div>
+
+                                            <input type="hidden" id="hiddenmarkupname" value="">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer" style="justify-content: center;">
+                                        <button type="button" id="Yes" class="btn"
+                                            style="background-color: green; color: black;">Yes</button>
+                                        <button type="button" id="No" data-bs-dismiss="modal" class="btn"
+                                            style="background-color: red; color: black;">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="deleteAllUserModal" tabindex="-1" style="display: none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="margin: auto;">Are You Sure to Delete!</h1>
+                                    </div>
+
+                                    <div class="modal-footer" style="justify-content: center;">
+                                        <button type="button" id="deleteAll" class="btn"
+                                            style="background-color: green; color: black;"
+                                            onclick="bulkDelete()">Yes</button>
+                                        <button type="button" id="Not" data-bs-dismiss="modal" class="btn"
+                                            style="background-color: red; color: black;">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmModalLabel" aria-hidden="false">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="justify-content: center;">
+                                        <h3 class="modal-title">Are you sure delete?</h3>
+                                        <div id="confrmdelete"></div>
+                                        <input type="hidden" id="hiddenmarkupid" value="">
+                                    </div>
+                                    <div class="modal-footer" style="justify-content: center;">
+                                        <button type="button" id="delete" class="btn"
+                                            style="background-color: green; color: black;">Yes</button>
+                                        <button type="button" id="notConfirm" data-dismiss="modal" class="btn"
+                                            style="background-color: red; color: black;">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+    </div>
+    <%- include("../partials/foot") %>
+        <%- include("../partials/scripts") %>
+
+            <script src="js/markup.js"></script>
+            <script src="js/pagination.js"></script>
+</body>
+
+</html>

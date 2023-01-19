@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= pageTitle %>
+    </title>
+    <%- include("../partials/head") %>
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+        <%- include("../partials/sidebar", {collapsed: 'false' }); %>
+
+            <div class="main">
+                <%- include("../partials/header") %>
+
+                    <main class="content p-3">
+
+                        <div class="container-fluid ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="card-actions ">
+                                                    <!--<button id="advanceSearch" class="btn btn-secondary">Filter</button>-->
+                                                    <select class="form-select select2" style="width: 30%;" id="clubs">
+                                                        <option>--Select Club--</option>
+                                                        <% dataClubs.forEach(function(data){ %>
+                                                            <option value="<%=data.id %>">
+                                                                <%=data.name %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 pageContent" id="pageContent" style="display: none;">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5 class="card-title">
+                                                        <%= title %>
+                                                    </h5>
+                                                    <h6 class="card-subtitle text-muted"></h6>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card-actions float-end">
+                                                        <button id="cloneData" class="btn btn-outline-primary"><i
+                                                                class="align-middle me-2" data-feather="plus"></i>
+                                                            Clone</button>
+                                                        <button id="add-page" class="btn btn-outline-primary"><i
+                                                                class="align-middle me-2" data-feather="plus"></i>
+                                                            Add Currency</button>
+                                                        <!--<button id="deleteAllPage" class="btn btn-outline-danger"
+															title="Delete">
+															<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																height="24" viewBox="0 0 24 24" fill="none"
+																stroke="currentColor" stroke-width="2"
+																stroke-linecap="round" stroke-linejoin="round"
+																class="feather feather-trash align-middle">
+																<polyline points="3 6 5 6 21 6"></polyline>
+																<path
+																	d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+																</path>
+															</svg>
+															Delete
+														</button>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="card-body">
+                                            <table id="main-table"
+                                                class="table table-hover table-striped table-bordered table-sm"
+                                                data-resizable-columns-id="demo-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-action="true" class="col-md-1">Action</th>
+                                                        <th class="col-md-2">Club</th>
+                                                        <th class="col-md-2">Tier</th>
+                                                        <th data-search="true" class="col-md-5">Language</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            <!-- pagination support element (fPageStats display stats if incuded)-->
+                                            <div class="row" id="fPageRow">
+                                                <div class="col-md-6">
+                                                    <span id="fPageStats"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ul class="pagination float-end" id="fPage"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered " role="document" style="min-width: 50%;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="add-page-title">Add Currency</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form id="addPageForm" class="form needs-validation" autocomplete="off">
+                                        <div class="modal-body m-3">
+
+
+                                            <div class="row" style="display: flex;justify-content: space-between;">
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Country</label>
+                                                        <select class="form-select select2 pageSelectElement"
+                                                            id="country" autocomplete="off" custom_validation="true"
+                                                            custom_validation_msg="Please select country">
+                                                            <option value="">Choose Country</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Code</label>
+                                                        <input class="form-control pageInputElement"
+                                                            data-property='["code"]' required id="code"
+                                                            autocomplete="off" custom_validation="true"
+                                                            custom_validation_msg="Please enter code" />
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Symbol</label>
+                                                        <input class="form-control pageInputElement"
+                                                            data-property='["symbol"]' required id="symbol"
+                                                            autocomplete="off" custom_validation="true"
+                                                            custom_validation_msg="Please enter symbol" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Alpha 2</label>
+                                                        <input class="form-control pageInputElement"
+                                                            data-property='["alpha2"]' required id="alpha2"
+                                                            autocomplete="off" custom_validation="true"
+                                                            custom_validation_msg="Please enter alpha2" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Alpha 3</label>
+                                                        <input class="form-control pageInputElement"
+                                                            data-property='["alpha3"]' required id="alpha3"
+                                                            autocomplete="off" custom_validation="true"
+                                                            custom_validation_msg="Please enter alpha3" />
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            id="add-page-confirm">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="cloneModal" tabindex="-1" data-bs-backdrop="static"
+                            data-bs-keyboard="false" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Clone Content</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+                                            Are you sure to clone?
+                                        </div>
+                                        <ul id="list">
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="cloneConfirm" class="btn btn-primary"
+                                            id="cloneConfirm">Yes</button>
+                                        <button type="button" data-bs-dismiss="modal" class="btn btn-danger">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </main>
+                    <%- include("../partials/foot") %>
+                        <%- include("../partials/footer") %>
+            </div>
+    </div>
+    <%- include("../partials/scripts") %>
+        <script>
+            const _apiBase = ' /currency';
+            const _dataResource = []; 
+        </script>
+        <script src="js/pagination.js"></script>
+        <script src="js/clubcurrency.js"></script>
+</body>
+
+</html>

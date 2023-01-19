@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>CMS | <%= title %>
+	</title>
+	<%- include("../partials/head") %>
+</head>
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+	<div class="wrapper">
+			<div class="main">
+					<main class="content">
+						<div class="container-fluid p-0">
+							<div class="row mb-2 mb-xl-3">
+								<div class="col-auto d-none d-sm-block">
+									<h3>Error</h3>
+								</div>
+							</div>
+							<div class="row">
+								<p>Something is wrong , please report to Administrator.</p>
+							</div>
+						</div>
+					</main>
+					<%- include("../partials/footer") %>
+			</div>
+	</div>
+	<%- include("../partials/scripts") %>
+</body>
+
+</html>

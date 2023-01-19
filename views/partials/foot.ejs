@@ -1,0 +1,162 @@
+<div class="modal" id="loader">
+    <div class="modal-dialog modal-sm modal-dialog-centered" style="width: 150px;">
+        <div class="modal-content">
+            <!-- Modal body -->
+           
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary me-2" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div>Please Wait</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="changePassword" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="align-middle me-2 fas fa-fw fa-key"></i> Change Password</h5>
+                <button type="button" class="btn-close close-change-pwd-dialog" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form class="form needs-validation" role="form" autocomplete="off" id="formChangePassword">
+
+                <div class="modal-body">
+                    <div class="row pb-1">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="newPwd">New Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" name="newPassword" id="newPassword"
+                                        autocomplete="off"
+                                        oninvalid="this.setCustomValidity('New Password is required')"
+                                        oninput="this.setCustomValidity('')" required>
+                                    <span class="input-group-text" role="button" id="toggle-password1"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg></span>
+                                    <div class="invalid-feedback">
+                                        Password is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPwd">Confirm Password</label>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" autocomplete="off" id="confirmPassword"
+                                name="confirmPassword" oninvalid="this.setCustomValidity('Confirm Password is required')"
+                                oninput="this.setCustomValidity('')" required>
+                            <span class="input-group-text" role="button" id="toggle-password"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-eye">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg></span>
+                            <div class="invalid-feedback">
+                                Confirm password is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button role="button" id="closecpwd" data-bs-dismiss="modal" class="btn btn-danger">Cancel</button>
+                    <button role="button" id="change" class="btn btn-primary">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteDialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Are you sure to delete?
+                </div>
+                <ul id="list">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="bdelete" class="btn btn-warning">Delete</button>
+                <button type="button" id="bcancel" data-bs-dismiss="modal" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="activeDialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Active</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Are you certain to activate it?
+                </div>
+                <ul id="list">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="bactive" class="btn btn-warning">Activate</button>
+                <button type="button" id="bcancel" data-bs-dismiss="modal" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="inactiveDialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Inactive</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Are you certain to deactivate it?
+                </div>
+                <ul id="list">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="binactive" class="btn btn-warning">Deactivate</button>
+                <button type="button" id="bcancel" data-bs-dismiss="modal" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCheckDialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Inactive</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="dc-message">
+                    Are you certain to deactivate it?
+                </div>
+                <ul id="dc-list">
+                    <li>test</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" class="btn btn-warning">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

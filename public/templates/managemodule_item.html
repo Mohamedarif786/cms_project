@@ -1,0 +1,27 @@
+<tr id="row${id}">
+    <td>
+        <a role="button" class="delete-resource" data-id="${id}" data-name="${name}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="grey" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-trash align-middle">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+        </a>
+    </td>
+    <td>
+        <input type="checkbox" class="delete-check" data-id="${id}" data-policy="${policyid}"  data-name="${name}"/>
+    </td>
+    <td>
+        ${name}
+    </td>
+    <td>
+        ${type}
+    </td>
+    <td>
+        <!--<%=_data.accepts_payment==true ?'checked':''%-->
+        <input disabled data-id="${policyid}" ${accepts_payment==true ? 'checked' :''}
+            class="form-check-input status-resource" type="checkbox">
+    </td>
+
+</tr>
